@@ -1083,7 +1083,7 @@
 
             // Copy button
             html += `
-                <button class="copy-btn" onclick="copyTransmission()">📋 Copy Full Transmission</button>
+                <button class="copy-btn" onclick="copyTransmission(event)">📋 Copy Full Transmission</button>
             `;
 
             results.innerHTML = html;
@@ -1101,7 +1101,7 @@
                 .replace(/\*(.*?)\*/g, '<em>$1</em>');
         }
 
-        function copyTransmission() {
+        function copyTransmission(event) {
             if (!currentTransmission) return;
 
             let text = `Void Radio 虛.fm Transmission\n`;
@@ -1139,7 +1139,21 @@
                 }, 2000);
             }).catch(err => {
                 console.error('Copy failed:', err);
-                alert('Copy failed. Please select and copy manually.');
+                
+                // Fallback: Select text for manual copying
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
             });
         }
 

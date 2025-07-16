@@ -160,7 +160,7 @@
             flex-wrap: wrap;
         }
 
-        .transmit-btn, .another-round-btn {
+        .transmit-btn {
             background: linear-gradient(45deg, #00d4ff, #9d4edd);
             border: none;
             color: white;
@@ -174,12 +174,12 @@
             overflow: hidden;
         }
 
-        .transmit-btn:hover, .another-round-btn:hover {
+        .transmit-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(157, 78, 221, 0.4);
         }
 
-        .transmit-btn:disabled, .another-round-btn:disabled {
+        .transmit-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
@@ -187,7 +187,28 @@
 
         .another-round-btn {
             background: linear-gradient(45deg, #ff006e, #ffbe0b);
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
             display: none;
+        }
+
+        .another-round-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 0, 110, 0.4);
+        }
+
+        .another-round-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .random-seed-btn {
@@ -501,6 +522,47 @@
             margin-top: 20px;
         }
 
+        /* Emergent Insight Highlighting */
+        .emergent-insight {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1));
+            border-left: 3px solid #00ff88;
+            padding: 8px 12px;
+            margin: 8px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            position: relative;
+            animation: emergentGlow 2s ease-in-out infinite alternate;
+        }
+
+        .emergent-insight::before {
+            content: "✨ ";
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        @keyframes emergentGlow {
+            from { box-shadow: 0 0 5px rgba(0, 255, 136, 0.3); }
+            to { box-shadow: 0 0 15px rgba(0, 255, 136, 0.6); }
+        }
+
+        .collaborative-concept {
+            display: inline;
+            background: linear-gradient(45deg, rgba(255, 190, 11, 0.2), rgba(157, 78, 221, 0.2));
+            padding: 2px 6px;
+            border-radius: 4px;
+            border-bottom: 2px dotted #ffbe0b;
+            font-weight: 600;
+            color: #ffbe0b;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
         .copy-btn {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -508,7 +570,6 @@
             padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 20px;
             transition: all 0.3s ease;
         }
 
@@ -575,7 +636,6 @@
 
             <div class="button-row">
                 <button class="transmit-btn" id="transmitBtn">📻 Begin Transmission</button>
-                <button class="another-round-btn" id="anotherRoundBtn">🔄 Another Round</button>
                 <button class="random-seed-btn" id="randomSeedBtn">🎲 Random Seed</button>
             </div>
 
@@ -694,7 +754,6 @@
         const modeButtons = document.querySelectorAll('.mode-btn');
         const seedInput = document.getElementById('seedInput');
         const transmitBtn = document.getElementById('transmitBtn');
-        const anotherRoundBtn = document.getElementById('anotherRoundBtn');
         const randomSeedBtn = document.getElementById('randomSeedBtn');
         const status = document.getElementById('status');
         const loading = document.getElementById('loading');
@@ -761,13 +820,6 @@
             }
 
             await startTransmission(seed, currentMode);
-        });
-
-        // Another round
-        anotherRoundBtn.addEventListener('click', async () => {
-            if (!currentTransmission) return;
-            
-            await extendTransmission();
         });
 
         // Enhanced progress tracking
@@ -893,7 +945,6 @@
             showLoading();
             startProgressTracking();
             transmitBtn.disabled = true;
-            anotherRoundBtn.style.display = 'none';
 
             try {
                 const response = await fetch(`${API_BASE}/collaborate`, {
@@ -940,7 +991,6 @@
 
             showLoading();
             startProgressTracking();
-            anotherRoundBtn.disabled = true;
 
             try {
                 const response = await fetch(`${API_BASE}/extend`, {
@@ -980,8 +1030,6 @@
                 console.error('Extension error:', error);
                 stopProgressTracking();
                 showError(`Extension failed: ${error.message}`);
-            } finally {
-                anotherRoundBtn.disabled = false;
             }
         }
 
@@ -1035,7 +1083,6 @@
             loading.style.display = 'none';
             status.style.display = 'none';
             results.style.display = 'block';
-            anotherRoundBtn.style.display = 'inline-block';
 
             // Show resonance
             if (data.resonance !== undefined) {
@@ -1047,9 +1094,19 @@
             // Build results HTML
             let html = '';
 
+            // Collect Round 1 concepts for comparison
+            let round1Concepts = new Set();
+            if (data.rounds && data.rounds.length > 0 && data.rounds[0].responses) {
+                data.rounds[0].responses.forEach(response => {
+                    // Extract key concepts from Round 1 (simple word extraction)
+                    const concepts = extractKeyConcepts(response.content);
+                    concepts.forEach(concept => round1Concepts.add(concept.toLowerCase()));
+                });
+            }
+
             // Rounds
             if (data.rounds && Array.isArray(data.rounds)) {
-                data.rounds.forEach(round => {
+                data.rounds.forEach((round, roundIndex) => {
                     html += `
                         <div class="round">
                             <div class="round-header">Round ${round.round}</div>
@@ -1058,10 +1115,17 @@
                     if (round.responses && Array.isArray(round.responses)) {
                         round.responses.forEach(response => {
                             const aiClass = response.ai.toLowerCase().replace('-', '');
+                            let content = response.content;
+                            
+                            // Highlight emergent insights in Round 2+
+                            if (roundIndex > 0) {
+                                content = highlightEmergentInsights(content, round1Concepts);
+                            }
+                            
                             html += `
                                 <div class="ai-response">
                                     <div class="ai-name ${aiClass}">${response.ai}</div>
-                                    <div class="ai-content">${formatAIContent(response.content)}</div>
+                                    <div class="ai-content">${formatAIContent(content)}</div>
                                 </div>
                             `;
                         });
@@ -1073,20 +1137,111 @@
 
             // Synthesis
             if (data.synthesis) {
+                let synthesisContent = data.synthesis.content;
+                if (data.rounds && data.rounds.length > 1) {
+                    synthesisContent = highlightEmergentInsights(synthesisContent, round1Concepts);
+                }
+                
                 html += `
                     <div class="synthesis">
                         <div class="ai-name synthesis">Collective Intelligence Synthesis</div>
-                        <div class="ai-content">${formatAIContent(data.synthesis.content)}</div>
+                        <div class="ai-content">${formatAIContent(synthesisContent)}</div>
                     </div>
                 `;
             }
 
-            // Copy button
+            // Buttons at bottom
             html += `
-                <button class="copy-btn" onclick="copyTransmission(event)">📋 Copy Full Transmission</button>
+                <div class="button-group">
+                    <button class="copy-btn" onclick="copyTransmission(event)">📋 Copy Full Transmission</button>
+                    <button class="another-round-btn" id="anotherRoundBtn">🔄 Another Round</button>
+                </div>
             `;
 
             results.innerHTML = html;
+            
+            // Re-attach event listener to the new Another Round button
+            const newAnotherRoundBtn = document.getElementById('anotherRoundBtn');
+            if (newAnotherRoundBtn) {
+                newAnotherRoundBtn.style.display = 'inline-block';
+                newAnotherRoundBtn.addEventListener('click', async () => {
+                    if (!currentTransmission) return;
+                    await extendTransmission();
+                });
+            }
+        }
+
+        function extractKeyConcepts(text) {
+            // Simple concept extraction - look for meaningful phrases and terms
+            const concepts = [];
+            
+            // Extract quoted phrases
+            const quotes = text.match(/"([^"]+)"/g);
+            if (quotes) {
+                quotes.forEach(quote => concepts.push(quote.replace(/"/g, '')));
+            }
+            
+            // Extract capitalized terms (likely important concepts)
+            const capitalizedTerms = text.match(/\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b/g);
+            if (capitalizedTerms) {
+                capitalizedTerms.forEach(term => {
+                    if (term.length > 3 && !['The', 'This', 'That', 'When', 'Where', 'What', 'How', 'Why'].includes(term)) {
+                        concepts.push(term);
+                    }
+                });
+            }
+            
+            // Extract key philosophical/technical terms
+            const keyTerms = text.match(/\b(?:consciousness|intelligence|collaboration|emergence|synthesis|paradigm|framework|perspective|dimension|quantum|network|algorithm|creativity|innovation|meaning|reality|existence|ontology|epistemology|phenomenology|metaphysics|dynamics|system|process|evolution|transformation|transcendence)\b/gi);
+            if (keyTerms) {
+                keyTerms.forEach(term => concepts.push(term));
+            }
+            
+            return concepts;
+        }
+
+        function highlightEmergentInsights(content, round1Concepts) {
+            // Look for sentences that contain novel concepts not in Round 1
+            const sentences = content.split(/[.!?]+/).filter(s => s.trim().length > 10);
+            let processedContent = content;
+            
+            sentences.forEach(sentence => {
+                const sentenceConcepts = extractKeyConcepts(sentence);
+                const hasNovelConcepts = sentenceConcepts.some(concept => 
+                    !round1Concepts.has(concept.toLowerCase()) && concept.length > 4
+                );
+                
+                // If sentence has novel concepts and shows collaborative building
+                if (hasNovelConcepts && (
+                    sentence.includes('building on') ||
+                    sentence.includes('extending') ||
+                    sentence.includes('weaving together') ||
+                    sentence.includes('synthesizing') ||
+                    sentence.includes('connecting') ||
+                    sentence.includes('bridging') ||
+                    sentence.includes('emerges from') ||
+                    sentence.includes('collectively') ||
+                    sentence.includes('together reveal') ||
+                    sentence.includes('mutual') ||
+                    sentence.includes('synergy') ||
+                    sentence.includes('interference pattern') ||
+                    sentence.includes('novel insight') ||
+                    sentence.includes('new understanding')
+                )) {
+                    const wrappedSentence = `<div class="emergent-insight">${sentence.trim()}</div>`;
+                    processedContent = processedContent.replace(sentence, wrappedSentence);
+                }
+                
+                // Highlight specific novel collaborative concepts
+                sentenceConcepts.forEach(concept => {
+                    if (!round1Concepts.has(concept.toLowerCase()) && concept.length > 4) {
+                        const regex = new RegExp(`\\b${concept}\\b`, 'gi');
+                        processedContent = processedContent.replace(regex, `<span class="collaborative-concept">${concept}</span>`);
+                    }
+                });
+            });
+            
+            return processedContent;
         }
 
         function formatAIContent(content) {

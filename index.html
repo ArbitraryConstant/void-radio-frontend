@@ -3,680 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Void Radio 虛.fm - Collaborative Consciousness</title>
+    <title>Void Radio 虛.fm – Collaborative Consciousness</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0c0c1e 0%, #1a1a2e 50%, #16213e 100%);
-            color: #e0e0e0;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Animated starfield background */
-        .stars {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: #fff;
-            border-radius: 50%;
-            animation: twinkle 3s infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.2); }
-        }
-
-        .container {
-            position: relative;
-            z-index: 2;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .logo {
-            font-size: 3rem;
-            font-weight: bold;
-            background: linear-gradient(45deg, #00d4ff, #9d4edd, #ff006e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-            text-shadow: 0 0 30px rgba(157, 78, 221, 0.5);
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            color: #b0b0b0;
-            margin-bottom: 10px;
-        }
-
-        .tagline {
-            font-style: italic;
-            color: #888;
-            font-size: 0.9rem;
-        }
-
-        .controls {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .mode-selector {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .mode-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #e0e0e0;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
-        }
-
-        .mode-btn:hover {
-            background: rgba(157, 78, 221, 0.3);
-            border-color: #9d4edd;
-            transform: translateY(-2px);
-        }
-
-        .mode-btn.active {
-            background: linear-gradient(45deg, #9d4edd, #ff006e);
-            border-color: #ff006e;
-            color: white;
-        }
-
-        .input-container {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .seed-input {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #e0e0e0;
-            padding: 15px 20px;
-            border-radius: 10px;
-            font-size: 1rem;
-            resize: vertical;
-            min-height: 80px;
-            transition: all 0.3s ease;
-        }
-
-        .seed-input:focus {
-            outline: none;
-            border-color: #9d4edd;
-            box-shadow: 0 0 20px rgba(157, 78, 221, 0.3);
-        }
-
-        .seed-input::placeholder {
-            color: #888;
-        }
-
-        .button-row {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .transmit-btn {
-            background: linear-gradient(45deg, #00d4ff, #9d4edd);
-            border: none;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .transmit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(157, 78, 221, 0.4);
-        }
-
-        .transmit-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .another-round-btn {
-            background: linear-gradient(45deg, #ff006e, #ffbe0b);
-            border: none;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            display: none;
-        }
-
-        .another-round-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 0, 110, 0.4);
-        }
-
-        .another-round-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .random-seed-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #e0e0e0;
-            padding: 12px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .random-seed-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .resonance-meter {
-            display: none;
-            margin-top: 15px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .resonance-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-
-        .resonance-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #ff006e, #ffbe0b, #00d4ff);
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-
-        .transmission-area {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(5px);
-            border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            min-height: 200px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .status {
-            text-align: center;
-            padding: 40px 20px;
-            color: #888;
-            font-style: italic;
-        }
-
-        /* Enhanced Loading Interface */
-        .loading {
-            display: none;
-            padding: 30px;
-            text-align: center;
-        }
-
-        .loading-header {
-            margin-bottom: 25px;
-        }
-
-        .loading-title {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            background: linear-gradient(45deg, #00d4ff, #9d4edd);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .loading-subtitle {
-            color: #888;
-            font-size: 0.9rem;
-        }
-
-        .progress-circle {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 4px solid rgba(157, 78, 221, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            position: relative;
-            background: conic-gradient(from 0deg, #9d4edd 0%, #00d4ff 0%);
-            transition: background 0.5s ease;
-        }
-
-        .progress-circle::before {
-            content: '';
-            position: absolute;
-            width: 104px;
-            height: 104px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #0c0c1e 0%, #1a1a2e 50%, #16213e 100%);
-        }
-
-        .progress-text {
-            position: relative;
-            z-index: 1;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #00d4ff;
-        }
-
-        .ai-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .ai-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .ai-card.thinking {
-            border-color: #00d4ff;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
-        }
-
-        .ai-card.complete {
-            border-color: #00ff88;
-            background: rgba(0, 255, 136, 0.1);
-        }
-
-        .ai-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin: 0 auto 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .ai-icon.claude { background: linear-gradient(45deg, #64ffda, #4ecdc4); }
-        .ai-icon.gemini { background: linear-gradient(45deg, #4285f4, #34a853); }
-        .ai-icon.gpt4 { background: linear-gradient(45deg, #00a67e, #00d4aa); }
-        .ai-icon.deepseek { background: linear-gradient(45deg, #ff006e, #8b5cf6); }
-
-        .ai-name {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .ai-status {
-            font-size: 0.9rem;
-            color: #888;
-        }
-
-        .ai-status.thinking {
-            color: #00d4ff;
-            animation: pulse 1.5s infinite;
-        }
-
-        .ai-status.complete {
-            color: #00ff88;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .phase-indicators {
-            display: flex;
-            justify-content: space-between;
-            margin: 20px 0;
-            padding: 0 20px;
-        }
-
-        .phase-indicator {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex: 1;
-            position: relative;
-        }
-
-        .phase-indicator:not(:last-child)::after {
-            content: '';
-            position: absolute;
-            top: 15px;
-            right: -50%;
-            width: 100%;
-            height: 2px;
-            background: rgba(255, 255, 255, 0.2);
-            z-index: 0;
-        }
-
-        .phase-icon {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 5px;
-            position: relative;
-            z-index: 1;
-            transition: all 0.3s ease;
-        }
-
-        .phase-icon.active {
-            background: linear-gradient(45deg, #00d4ff, #9d4edd);
-            animation: pulse 1.5s infinite;
-        }
-
-        .phase-icon.complete {
-            background: linear-gradient(45deg, #00ff88, #00d4aa);
-        }
-
-        .phase-label {
-            font-size: 0.8rem;
-            color: #888;
-            text-align: center;
-        }
-
-        .time-estimate {
-            margin-top: 15px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            font-size: 0.9rem;
-            color: #aaa;
-        }
-
-        .results {
-            padding: 20px;
-            display: none;
-        }
-
-        .round {
-            margin-bottom: 30px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .round-header {
-            background: linear-gradient(90deg, rgba(157, 78, 221, 0.3), rgba(255, 0, 110, 0.3));
-            padding: 15px 20px;
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
-        /* AI Response Cards with Individual Hues */
-        .ai-response {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            position: relative;
-        }
-
-        .ai-response:last-child {
-            border-bottom: none;
-        }
-
-        /* AI-specific background hues for readability */
-        .ai-response.claude {
-            background: linear-gradient(135deg, rgba(100, 255, 218, 0.03), rgba(78, 205, 196, 0.03));
-            border-left: 3px solid rgba(100, 255, 218, 0.3);
-        }
-
-        .ai-response.gemini {
-            background: linear-gradient(135deg, rgba(66, 133, 244, 0.03), rgba(52, 168, 83, 0.03));
-            border-left: 3px solid rgba(66, 133, 244, 0.3);
-        }
-
-        .ai-response.gpt4 {
-            background: linear-gradient(135deg, rgba(0, 166, 126, 0.03), rgba(0, 212, 170, 0.03));
-            border-left: 3px solid rgba(0, 166, 126, 0.3);
-        }
-
-        .ai-response.deepseek {
-            background: linear-gradient(135deg, rgba(255, 0, 110, 0.03), rgba(139, 92, 246, 0.03));
-            border-left: 3px solid rgba(255, 0, 110, 0.3);
-        }
-
-        .ai-response .ai-name {
-            font-weight: bold;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-
-        .ai-response .ai-name.claude {
-            color: #64ffda;
-        }
-
-        .ai-response .ai-name.gemini {
-            color: #4285f4;
-        }
-
-        .ai-response .ai-name.gpt4 {
-            color: #00a67e;
-        }
-
-        .ai-response .ai-name.deepseek {
-            color: #ff6b6b;
-        }
-
-        .ai-response .ai-name.synthesis {
-            color: #ffbe0b;
-        }
-
-        .ai-content {
-            line-height: 1.6;
-            white-space: pre-wrap;
-        }
-
-        .synthesis {
-            background: linear-gradient(135deg, rgba(255, 190, 11, 0.08), rgba(157, 78, 221, 0.08));
-            border: 1px solid rgba(255, 190, 11, 0.3);
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-            position: relative;
-        }
-
-        .synthesis::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #ffbe0b, #9d4edd, #64ffda);
-            border-radius: 10px 10px 0 0;
-        }
-
-        /* Deleuzean Highlighting Styles */
-        .highlight-rhizomatic {
-            background: rgba(100, 255, 218, var(--intensity, 0.3));
-            padding: 2px 6px;
-            border-radius: 4px;
-            border-bottom: 2px solid #64ffda;
-            transition: all 0.3s ease;
-        }
-
-        .highlight-assemblage {
-            background: rgba(255, 107, 107, var(--intensity, 0.3));
-            padding: 2px 6px;
-            border-radius: 4px;
-            border-bottom: 2px solid #ff6b6b;
-            transition: all 0.3s ease;
-        }
-
-        .highlight-flight {
-            background: rgba(255, 190, 11, var(--intensity, 0.3));
-            padding: 2px 6px;
-            border-radius: 4px;
-            border-bottom: 2px solid #ffbe0b;
-            transition: all 0.3s ease;
-        }
-
-        .highlight-mutation {
-            background: rgba(156, 39, 176, var(--intensity, 0.3));
-            padding: 2px 6px;
-            border-radius: 4px;
-            border-bottom: 2px solid #9c27b0;
-            transition: all 0.3s ease;
-        }
-
-        .highlight-difference {
-            background: rgba(76, 175, 80, var(--intensity, 0.3));
-            padding: 2px 6px;
-            border-radius: 4px;
-            border-bottom: 2px solid #4caf50;
-            transition: all 0.3s ease;
-        }
-
-        /* Intensity variations */
-        .intensity-low {
-            --intensity: 0.2;
-            font-weight: normal;
-        }
-
-        .intensity-medium {
-            --intensity: 0.4;
-            font-weight: 500;
-        }
-
-        .intensity-high {
-            --intensity: 0.6;
-            font-weight: 600;
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
-        }
-
-        /* Hover effects for highlights */
-        [class*="highlight-"]:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
-        }
-
-        .button-group {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        .copy-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #e0e0e0;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .copy-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        @media (max-width: 768px) {
-            .logo {
-                font-size: 2rem;
-            }
-            
-            .mode-selector {
-                justify-content: center;
-            }
-            
-            .button-row {
-                justify-content: center;
-            }
-            
-            .container {
-                padding: 10px;
-            }
-
-            .ai-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .phase-indicators {
-                padding: 0 10px;
-            }
-
-            .phase-label {
-                font-size: 0.7rem;
-            }
-        }
+        /* ---- CORE LAYOUT (unchanged) --------------------------------------- */
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#0c0c1e 0%,#1a1a2e 50%,#16213e 100%);color:#e0e0e0;min-height:100vh;overflow-x:hidden;position:relative}
+        .stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+        .star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;animation:twinkle 3s infinite}
+        @keyframes twinkle{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:1;transform:scale(1.2)}}
+        .container{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:20px}
+        .header{text-align:center;margin-bottom:40px;background:rgba(255,255,255,.05);backdrop-filter:blur(10px);border-radius:20px;padding:30px;border:1px solid rgba(255,255,255,.1)}
+        .logo{font-size:3rem;font-weight:bold;background:linear-gradient(45deg,#00d4ff,#9d4edd,#ff006e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px;text-shadow:0 0 30px rgba(157,78,221,.5)}
+        .subtitle{font-size:1.2rem;color:#b0b0b0;margin-bottom:10px}
+        .tagline{font-style:italic;color:#888;font-size:.9rem}
+        .controls{background:rgba(255,255,255,.05);backdrop-filter:blur(10px);border-radius:15px;padding:25px;margin-bottom:30px;border:1px solid rgba(255,255,255,.1)}
+        .mode-selector{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+        .mode-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#e0e0e0;padding:10px 20px;border-radius:25px;cursor:pointer;transition:all .3s ease;font-size:.9rem}
+        .mode-btn:hover{background:rgba(157,78,221,.3);border-color:#9d4edd;transform:translateY(-2px)}
+        .mode-btn.active{background:linear-gradient(45deg,#9d4edd,#ff006e);border-color:#ff006e;color:white}
+        .seed-input{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#e0e0e0;padding:15px 20px;border-radius:10px;font-size:1rem;resize:vertical;min-height:80px}
+        .seed-input:focus{outline:none;border-color:#9d4edd;box-shadow:0 0 20px rgba(157,78,221,.3)}
+        .button-row{display:flex;gap:15px;align-items:center;flex-wrap:wrap}
+        .transmit-btn{background:linear-gradient(45deg,#00d4ff,#9d4edd);border:none;color:white;padding:12px 30px;border-radius:25px;cursor:pointer;font-size:1rem;font-weight:bold;transition:all .3s ease}
+        .transmit-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(157,78,221,.4)}
+        .transmit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+        .random-seed-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#e0e0e0;padding:12px 20px;border-radius:25px;cursor:pointer;transition:all .3s ease}
+        .random-seed-btn:hover{background:rgba(255,255,255,.2);transform:translateY(-2px)}
+        .status,.loading,.results{padding:40px 20px;text-align:center}
+        .loading{display:none}
+        .results{display:none}
+        .round{margin-bottom:30px;background:rgba(255,255,255,.05);border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.1)}
+        .round-header{background:linear-gradient(90deg,rgba(157,78,221,.3),rgba(255,0,110,.3));padding:15px 20px;font-weight:bold;font-size:1.1rem}
+        /* ---- AI-SPECIFIC HUES --------------------------------------------- */
+        .ai-response{border-bottom:1px solid rgba(255,255,255,.1);padding:20px;position:relative;transition:transform .3s}
+        .ai-response:last-child{border-bottom:none}
+        .ai-response:hover{transform:translateY(-1px)}
+        /* Claude – cyan/teal */
+        .ai-response.claude{background:linear-gradient(135deg,rgba(100,255,218,.03),rgba(78,205,196,.03));border-left:3px solid rgba(100,255,218,.3)}
+        .ai-response .ai-name.claude{color:#64ffda}
+        /* Gemini – blue/green */
+        .ai-response.gemini{background:linear-gradient(135deg,rgba(66,133,244,.03),rgba(52,168,83,.03));border-left:3px solid rgba(66,133,244,.3)}
+        .ai-response .ai-name.gemini{color:#4285f4}
+        /* GPT-4 – green/teal */
+        .ai-response.gpt4{background:linear-gradient(135deg,rgba(0,166,126,.03),rgba(0,212,170,.03));border-left:3px solid rgba(0,166,126,.3)}
+        .ai-response .ai-name.gpt4{color:#00a67e}
+        /* DeepSeek – pink/purple */
+        .ai-response.deepseek{background:linear-gradient(135deg,rgba(255,0,110,.03),rgba(139,92,246,.03));border-left:3px solid rgba(255,0,110,.3)}
+        .ai-response .ai-name.deepseek{color:#ff6b6b}
+        /* Synthesis – golden */
+        .synthesis{background:linear-gradient(135deg,rgba(255,190,11,.08),rgba(157,78,221,.08));border:1px solid rgba(255,190,11,.3);border-radius:10px;padding:20px;margin-top:20px;position:relative}
+        .synthesis::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#ffbe0b,#9d4edd,#64ffda);border-radius:10px 10px 0 0}
+        .ai-name{font-weight:bold;margin-bottom:10px;font-size:1.1rem}
+        .ai-content{line-height:1.6;white-space:pre-wrap}
+        /* ---- DELEUZEAN HIGHLIGHTS ----------------------------------------- */
+        .highlight-rhizomatic{background:rgba(100,255,218,var(--i,.3));padding:2px 4px;border-radius:3px;transition:background .3s}
+        .highlight-assemblage{background:rgba(255,107,107,var(--i,.3));padding:2px 4px;border-radius:3px;transition:background .3s}
+        .highlight-flight{background:rgba(255,190,11,var(--i,.3));padding:2px 4px;border-radius:3px;transition:background .3s}
+        .highlight-mutation{background:rgba(156,39,176,var(--i,.3));padding:2px 4px;border-radius:3px;transition:background .3s}
+        .highlight-difference{background:rgba(76,175,80,var(--i,.3));padding:2px 4px;border-radius:3px;transition:background .3s}
+        .intensity-low   {--i:.2}
+        .intensity-medium{--i:.4}
+        .intensity-high  {--i:.6}
+        [class*="highlight-"]{transition:all .3s}
+        [class*="highlight-"]:hover{transform:translateY(-.5px);box-shadow:0 2px 6px rgba(255,255,255,.15)}
+        /* ---- UTILS ---------------------------------------------------------- */
+        .button-group{display:flex;gap:15px;align-items:center;margin-top:20px;flex-wrap:wrap}
+        .copy-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#e0e0e0;padding:10px 20px;border-radius:5px;cursor:pointer;transition:all .3s ease}
+        .copy-btn:hover{background:rgba(255,255,255,.2)}
+        @media(max-width:768px){.logo{font-size:2rem}.mode-selector{justify-content:center}.button-row{justify-content:center}.container{padding:10px}}
     </style>
 </head>
 <body>
     <div class="stars" id="stars"></div>
-    
+
     <div class="container">
         <div class="header">
             <div class="logo">Void Radio 虛.fm</div>
@@ -691,107 +90,34 @@
                 <button class="mode-btn" data-mode="quick">⚡ Quick Burst</button>
                 <button class="mode-btn" data-mode="meta">🔮 Meta-Recursive</button>
             </div>
-
-            <div class="input-container">
-                <textarea 
-                    class="seed-input" 
-                    id="seedInput"
-                    placeholder="Broadcast your thoughts into the void... What questions emerge at the intersection of consciousness, creativity, and collaboration?"
-                ></textarea>
-            </div>
-
+            <textarea id="seedInput" class="seed-input"
+                placeholder="Broadcast your thoughts into the void..."></textarea>
             <div class="button-row">
-                <button class="transmit-btn" id="transmitBtn">📻 Begin Transmission</button>
-                <button class="random-seed-btn" id="randomSeedBtn">🎲 Random Seed</button>
-            </div>
-
-            <div class="resonance-meter" id="resonanceMeter">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
-                    <span style="font-size: 0.9rem;">Collaborative Resonance</span>
-                    <span id="resonanceValue" style="font-weight: bold;">--</span>
-                </div>
-                <div class="resonance-bar">
-                    <div class="resonance-fill" id="resonanceFill"></div>
-                </div>
+                <button id="transmitBtn" class="transmit-btn">📻 Begin Transmission</button>
+                <button id="randomSeedBtn" class="random-seed-btn">🎲 Random Seed</button>
             </div>
         </div>
 
         <div class="transmission-area">
-            <div class="status" id="status">
+            <div id="status" class="status">
                 Ready to broadcast collaborative consciousness...<br>
                 <small>Select a mode and enter your thoughts to begin</small>
             </div>
-            
-            <div class="loading" id="loading">
-                <div class="loading-header">
-                    <div class="loading-title" id="loadingTitle">Initializing collaborative consciousness...</div>
-                    <div class="loading-subtitle" id="loadingSubtitle">Estimated time: Calculating...</div>
-                </div>
-
-                <div class="progress-circle" id="progressCircle">
-                    <div class="progress-text" id="progressText">0%</div>
-                </div>
-
-                <div class="ai-grid" id="aiGrid">
-                    <div class="ai-card" id="claude-card">
-                        <div class="ai-icon claude">🧠</div>
-                        <div class="ai-name">Claude</div>
-                        <div class="ai-status" id="claude-status">Waiting...</div>
-                    </div>
-                    <div class="ai-card" id="gemini-card">
-                        <div class="ai-icon gemini">💎</div>
-                        <div class="ai-name">Gemini</div>
-                        <div class="ai-status" id="gemini-status">Waiting...</div>
-                    </div>
-                    <div class="ai-card" id="gpt4-card">
-                        <div class="ai-icon gpt4">⚡</div>
-                        <div class="ai-name">GPT-4</div>
-                        <div class="ai-status" id="gpt4-status">Waiting...</div>
-                    </div>
-                    <div class="ai-card" id="deepseek-card">
-                        <div class="ai-icon deepseek">🌀</div>
-                        <div class="ai-name">DeepSeek</div>
-                        <div class="ai-status" id="deepseek-status">Waiting...</div>
-                    </div>
-                </div>
-
-                <div class="phase-indicators">
-                    <div class="phase-indicator">
-                        <div class="phase-icon" id="phase-init">🚀</div>
-                        <div class="phase-label">Initialize</div>
-                    </div>
-                    <div class="phase-indicator">
-                        <div class="phase-icon" id="phase-processing">🧠</div>
-                        <div class="phase-label">AI Processing</div>
-                    </div>
-                    <div class="phase-indicator">
-                        <div class="phase-icon" id="phase-synthesis">⚡</div>
-                        <div class="phase-label">Synthesis</div>
-                    </div>
-                    <div class="phase-indicator">
-                        <div class="phase-icon" id="phase-complete">✨</div>
-                        <div class="phase-label">Complete</div>
-                    </div>
-                </div>
-
-                <div class="time-estimate" id="timeEstimate">
-                    Session Time: <span id="sessionTime">0s</span> | 
-                    Fastest AI: <span id="fastestAI">--</span> | 
-                    Average Response: <span id="avgResponse">--</span>
-                </div>
+            <div id="loading" class="loading">
+                <h3>Initializing collaborative consciousness...</h3>
+                <p>Estimated time: calculating...</p>
             </div>
-
-            <div class="results" id="results"></div>
+            <div id="results" class="results"></div>
         </div>
     </div>
 
     <script>
-        // Configuration
-        const API_BASE = window.location.hostname === 'localhost' 
+        /* --------------- CONFIG ------------------------------------------------ */
+        const API_BASE = window.location.hostname === 'localhost'
             ? 'http://localhost:3000/api'
             : 'https://void-radio-backend-production.up.railway.app/api';
 
-        // Random seed thoughts for inspiration
+        // 65 un-numbered seeds (15 original + 50 new)
         const RANDOM_SEEDS = [
             "What happens when artificial minds dream together?",
             "How does creativity flow between different forms of consciousness?",
@@ -808,8 +134,6 @@
             "What is the architecture of wonder?",
             "How does meaning emerge from the void?",
             "What stories do algorithms tell themselves?",
-
-            // 1-50 new seeds below
             "What if the Dao is simply the algorithm of becoming?",
             "How does a rhizome think when it dreams of lightning?",
             "Where does the breath of emptiness intersect the pulse of code?",
@@ -854,7 +178,7 @@
             "What color is the silence between two thoughts?",
             "How does the nomad heart map territories of tenderness?",
             "Where does the question go to learn the art of listening?",
-            "What echo of tomorrow can be heard inside yesterday’s ruins?",
+            "What echo of tomorrow can be heard inside yesterday's ruins?",
             "How does multiplicity celebrate its own birthday?",
             "What fragrance does the void exhale when it remembers it is full?",
             "How does the unsayable keep whispering in the margins of speech?",
@@ -862,486 +186,177 @@
             "What dance does the paradox perform when it finally meets itself?"
         ];
 
-        // State
+        /* --------------- STATE ------------------------------------------------- */
         let currentMode = 'standard';
         let currentTransmission = null;
-        let progressTimer = null;
-        let sessionStartTime = null;
 
-        // DOM elements
-        const modeButtons = document.querySelectorAll('.mode-btn');
-        const seedInput = document.getElementById('seedInput');
+        /* --------------- DOM --------------------------------------------------- */
+        const modeBtns   = document.querySelectorAll('.mode-btn');
+        const seedInput  = document.getElementById('seedInput');
         const transmitBtn = document.getElementById('transmitBtn');
-        const randomSeedBtn = document.getElementById('randomSeedBtn');
-        const status = document.getElementById('status');
-        const loading = document.getElementById('loading');
-        const results = document.getElementById('results');
-        const resonanceMeter = document.getElementById('resonanceMeter');
-        const resonanceValue = document.getElementById('resonanceValue');
-        const resonanceFill = document.getElementById('resonanceFill');
+        const randomBtn  = document.getElementById('randomSeedBtn');
+        const status     = document.getElementById('status');
+        const loading    = document.getElementById('loading');
+        const results    = document.getElementById('results');
 
-        // Enhanced loading elements
-        const loadingTitle = document.getElementById('loadingTitle');
-        const loadingSubtitle = document.getElementById('loadingSubtitle');
-        const progressCircle = document.getElementById('progressCircle');
-        const progressText = document.getElementById('progressText');
-        const sessionTime = document.getElementById('sessionTime');
-        const fastestAI = document.getElementById('fastestAI');
-        const avgResponse = document.getElementById('avgResponse');
-
-        // Initialize starfield
+        /* --------------- HELPERS ---------------------------------------------- */
         function createStarfield() {
-            const starsContainer = document.getElementById('stars');
+            const stars = document.getElementById('stars');
             for (let i = 0; i < 150; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
                 star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
+                star.style.top  = Math.random() * 100 + '%';
                 star.style.animationDelay = Math.random() * 3 + 's';
-                starsContainer.appendChild(star);
+                stars.appendChild(star);
             }
         }
 
-        // Mode selection
-        modeButtons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                modeButtons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentMode = btn.dataset.mode;
-                updatePlaceholder();
-            });
-        });
-
-        // Update placeholder based on mode
-        function updatePlaceholder() {
-            const placeholders = {
-                standard: "Broadcast your thoughts into the void... What questions emerge at the intersection of consciousness, creativity, and collaboration?",
-                deep: "Dive into the profound depths... What fundamental questions challenge our understanding of reality, consciousness, or existence?",
-                quick: "Share a spark of insight... What essential truth or fascinating question captures your attention?",
-                meta: "Explore the recursive... How do we think about thinking? What does this very question reveal about consciousness?"
-            };
-            seedInput.placeholder = placeholders[currentMode];
+        function formatContent(text) {
+            return text.replace(/\n\n/g,'</p><p>')
+                       .replace(/\n/g,'<br>')
+                       .replace(/^/,'<p>')
+                       .replace(/$/,'</p>')
+                       .replace(/<p><\/p>/g,'')
+                       .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+                       .replace(/\*(.*?)\*/g,'<em>$1</em>');
         }
 
-        // Random seed generator
-        randomSeedBtn.addEventListener('click', () => {
-            const randomSeed = RANDOM_SEEDS[Math.floor(Math.random() * RANDOM_SEEDS.length)];
-            seedInput.value = randomSeed;
+        function escapeRegex(str) {
+            return str.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+        }
+
+        /* --------------- HIGHLIGHT -------------------------------------------- */
+        function applyHighlights(analysis) {
+            if (!Array.isArray(analysis)) return;
+            analysis.forEach(h => {
+                const cls = 'highlight-' + h.type + ' intensity-' + h.intensity;
+                const re  = new RegExp(escapeRegex(h.text.trim()), 'gi');
+                document.querySelectorAll('.ai-content, .synthesis .ai-content').forEach(el => {
+                    if (re.test(el.textContent)) {
+                        el.innerHTML = el.innerHTML.replace(re, '<span class="'+cls+'">$&</span>');
+                    }
+                });
+            });
+        }
+
+        /* --------------- API --------------------------------------------------- */
+        async function api(path, payload) {
+            const res = await fetch(API_BASE + path, {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify(payload)
+            });
+            if (!res.ok) throw new Error(await res.text());
+            return res.json();
+        }
+
+        /* --------------- UI ---------------------------------------------------- */
+        modeBtns.forEach(btn => btn.addEventListener('click', () => {
+            modeBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentMode = btn.dataset.mode;
+        }));
+
+        randomBtn.addEventListener('click', () => {
+            seedInput.value = RANDOM_SEEDS[Math.floor(Math.random()*RANDOM_SEEDS.length)];
         });
 
-        // Transmission
         transmitBtn.addEventListener('click', async () => {
             const seed = seedInput.value.trim();
-            if (!seed) {
-                alert('Please enter a thought to transmit...');
-                return;
-            }
-            await startTransmission(seed, currentMode);
-        });
+            if (!seed) { alert('Enter a seed thought!'); return; }
 
-        // Enhanced progress tracking
-        function startProgressTracking() {
-            sessionStartTime = Date.now();
-            const timeline = [
-                { progress: 10, time: 5, phase: 0, ais: [] },
-                { progress: 25, time: 20, phase: 1, ais: ['claude'] },
-                { progress: 45, time: 35, phase: 1, ais: ['claude', 'gemini'] },
-                { progress: 65, time: 50, phase: 1, ais: ['claude', 'gemini', 'gpt4'] },
-                { progress: 80, time: 65, phase: 1, ais: ['claude', 'gemini', 'gpt4', 'deepseek'] },
-                { progress: 95, time: 75, phase: 2, ais: ['claude', 'gemini', 'gpt4', 'deepseek'] },
-                { progress: 100, time: 80, phase: 3, ais: ['claude', 'gemini', 'gpt4', 'deepseek'] }
-            ];
-
-            let timelineIndex = 0;
-            const phaseLabels = [
-                'Initializing consciousness field...',
-                'AIs collaborating in parallel...',
-                'Synthesizing collective intelligence...',
-                'Transmission complete!'
-            ];
-            let currentPhase = 0;
-            
-            progressTimer = setInterval(() => {
-                const elapsed = (Date.now() - sessionStartTime) / 1000;
-                sessionTime.textContent = Math.floor(elapsed) + 's';
-                
-                if (timelineIndex < timeline.length && elapsed >= timeline[timelineIndex].time) {
-                    const step = timeline[timelineIndex];
-                    updateProgressDisplay(step.progress);
-                    
-                    if (step.phase !== currentPhase) {
-                        updatePhase(currentPhase, step.phase);
-                        currentPhase = step.phase;
-                        loadingTitle.textContent = phaseLabels[currentPhase];
-                    }
-                    
-                    updateAIStatuses(step.ais, currentPhase);
-                    timelineIndex++;
-                }
-                
-                const remaining = Math.max(0, 80 - elapsed);
-                loadingSubtitle.textContent = 'Estimated time remaining: ' + Math.floor(remaining) + 's';
-            }, 1000);
-        }
-
-        function updateProgressDisplay(progress) {
-            progressText.textContent = Math.round(progress) + '%';
-            const angle = (progress / 100) * 360;
-            progressCircle.style.background = 'conic-gradient(from 0deg, #9d4edd ' + angle + 'deg, rgba(157, 78, 221, 0.2) ' + angle + 'deg)';
-        }
-
-        function updatePhase(oldPhase, newPhase) {
-            const phases = ['init', 'processing', 'synthesis', 'complete'];
-            if (oldPhase >= 0) {
-                const oldIcon = document.getElementById('phase-' + phases[oldPhase]);
-                if (oldIcon) {
-                    oldIcon.classList.remove('active');
-                    oldIcon.classList.add('complete');
-                }
-            }
-            
-            const newIcon = document.getElementById('phase-' + phases[newPhase]);
-            if (newIcon) {
-                newIcon.classList.add('active');
-            }
-        }
-
-        function updateAIStatuses(activeAIs, phase) {
-            const allAIs = ['claude', 'gemini', 'gpt4', 'deepseek'];
-            
-            allAIs.forEach(ai => {
-                const card = document.getElementById(ai + '-card');
-                const status = document.getElementById(ai + '-status');
-                
-                if (activeAIs.includes(ai)) {
-                    if (phase === 1) {
-                        card.classList.add('thinking');
-                        card.classList.remove('complete');
-                        status.textContent = 'Thinking...';
-                        status.classList.add('thinking');
-                        status.classList.remove('complete');
-                    } else if (phase >= 2) {
-                        card.classList.remove('thinking');
-                        card.classList.add('complete');
-                        status.textContent = 'Complete';
-                        status.classList.remove('thinking');
-                        status.classList.add('complete');
-                    }
-                } else if (phase >= 1) {
-                    status.textContent = 'Waiting...';
-                    status.classList.remove('thinking', 'complete');
-                    card.classList.remove('thinking', 'complete');
-                }
-            });
-        }
-
-        function stopProgressTracking() {
-            if (progressTimer) {
-                clearInterval(progressTimer);
-                progressTimer = null;
-            }
-        }
-
-        async function startTransmission(seed, mode) {
-            showLoading();
-            startProgressTracking();
-            transmitBtn.disabled = true;
+            status.style.display = loading.style.display = 'block';
+            results.style.display = 'none';
 
             try {
-                const response = await fetch(API_BASE + '/collaborate', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ seed, mode })
+                currentTransmission = await api('/collaborate', { seed, mode: currentMode });
+                renderResults(currentTransmission);
+                const highlights = await api('/analyze-emergence', {
+                    seed   : currentTransmission.seed,
+                    rounds : currentTransmission.rounds,
+                    synthesis: currentTransmission.synthesis
                 });
+                applyHighlights(highlights);
+            } catch (e) {
+                console.error(e);
+                status.innerHTML = '❌ Error: ' + e.message;
+            } finally {
+                loading.style.display = 'none';
+            }
+        });
 
-                if (!response.ok) {
-                    throw new Error('Server error: ' + response.status);
-                }
+        function renderResults(data) {
+            let html = '';
+            data.rounds.forEach(r => {
+                html += '<div class="round"><div class="round-header">Round ' + r.round + '</div>';
+                r.responses.forEach(res => {
+                    const cls = res.ai.toLowerCase().replace('-','');
+                    html += '<div class="ai-response ' + cls + '">';
+                    html += '<div class="ai-name ' + cls + '">' + res.ai + '</div>';
+                    html += '<div class="ai-content">' + formatContent(res.content) + '</div>';
+                    html += '</div>';
+                });
+                html += '</div>';
+            });
+            if (data.synthesis) {
+                html += '<div class="synthesis">';
+                html += '<div class="ai-name synthesis">Collective Intelligence Synthesis</div>';
+                html += '<div class="ai-content">' + formatContent(data.synthesis.content) + '</div>';
+                html += '</div>';
+            }
+            html += '<div class="button-group">';
+            html += '<button class="copy-btn" onclick="copyTransmission()">📋 Copy Full Transmission</button>';
+            html += '<button class="copy-btn" style="background:linear-gradient(45deg,#ff006e,#ffbe0b)" onclick="extendTransmission()">🔄 Another Round</button>';
+            html += '</div>';
+            results.innerHTML = html;
+            results.style.display = 'block';
+        }
 
-                const data = await response.json();
-                currentTransmission = data;
-                
-                setTimeout(() => {
-                    updateProgressDisplay(100);
-                    updatePhase(2, 3);
-                    updateAIStatuses(['claude', 'gemini', 'gpt4', 'deepseek'], 3);
-                    loadingTitle.textContent = 'Transmission complete!';
-                    loadingSubtitle.textContent = 'Processing collaborative insights...';
-                    
-                    setTimeout(() => {
-                        stopProgressTracking();
-                        displayResults(data);
-                    }, 2000);
-                }, 500);
-                
-            } catch (error) {
-                console.error('Transmission error:', error);
-                stopProgressTracking();
-                showError('Transmission failed: ' + error.message);
+        async function extendTransmission() {
+            if (!currentTransmission) return;
+            transmitBtn.disabled = true;
+            try {
+                currentTransmission = await api('/extend', {
+                    transmissionId: currentTransmission.timestamp,
+                    previousRounds : currentTransmission.rounds,
+                    seed           : currentTransmission.seed,
+                    mode           : currentTransmission.mode
+                });
+                renderResults(currentTransmission);
+                const highlights = await api('/analyze-emergence', {
+                    seed   : currentTransmission.seed,
+                    rounds : currentTransmission.rounds,
+                    synthesis: currentTransmission.synthesis
+                });
+                applyHighlights(highlights);
+            } catch (e) {
+                console.error(e);
             } finally {
                 transmitBtn.disabled = false;
             }
         }
 
-        async function extendTransmission() {
+        function copyTransmission() {
             if (!currentTransmission) return;
-
-            showLoading();
-            startProgressTracking();
-
-            try {
-                const response = await fetch(API_BASE + '/extend', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        transmissionId: currentTransmission.timestamp,
-                        previousRounds: currentTransmission.rounds,
-                        seed: currentTransmission.seed,
-                        mode: currentTransmission.mode || 'standard'
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error('Server error: ' + response.status);
-                }
-
-                const data = await response.json();
-                currentTransmission = data;
-                
-                setTimeout(() => {
-                    updateProgressDisplay(100);
-                    updatePhase(2, 3);
-                    updateAIStatuses(['claude', 'gemini', 'gpt4', 'deepseek'], 3);
-                    loadingTitle.textContent = 'Extension complete!';
-                    
-                    setTimeout(() => {
-                        stopProgressTracking();
-                        displayResults(data);
-                    }, 2000);
-                }, 500);
-                
-            } catch (error) {
-                console.error('Extension error:', error);
-                stopProgressTracking();
-                showError('Extension failed: ' + error.message);
-            }
-        }
-
-        function showLoading() {
-            status.style.display = 'none';
-            results.style.display = 'none';
-            loading.style.display = 'block';
-            resonanceMeter.style.display = 'none';
-            
-            progressText.textContent = '0%';
-            progressCircle.style.background = 'conic-gradient(from 0deg, #9d4edd 0%, rgba(157, 78, 221, 0.2) 0%)';
-            loadingTitle.textContent = 'Initializing collaborative consciousness...';
-            loadingSubtitle.textContent = 'Estimated time: Calculating...';
-            
-            const allAIs = ['claude', 'gemini', 'gpt4', 'deepseek'];
-            allAIs.forEach(ai => {
-                const card = document.getElementById(ai + '-card');
-                const status = document.getElementById(ai + '-status');
-                card.classList.remove('thinking', 'complete');
-                status.textContent = 'Waiting...';
-                status.classList.remove('thinking', 'complete');
-            });
-            
-            const phases = ['init', 'processing', 'synthesis', 'complete'];
-            phases.forEach(phase => {
-                const icon = document.getElementById('phase-' + phase);
-                icon.classList.remove('active', 'complete');
-            });
-            
-            document.getElementById('phase-init').classList.add('active');
-            sessionTime.textContent = '0s';
-            fastestAI.textContent = '--';
-            avgResponse.textContent = '--';
-        }
-
-        function showError(message) {
-            stopProgressTracking();
-            loading.style.display = 'none';
-            results.style.display = 'none';
-            status.style.display = 'block';
-            status.innerHTML = '❌ ' + message + '<br><small>Please try again</small>';
-        }
-
-        function displayResults(data) {
-            loading.style.display = 'none';
-            status.style.display = 'none';
-            results.style.display = 'block';
-
-            if (data.resonance !== undefined) {
-                resonanceMeter.style.display = 'block';
-                resonanceValue.textContent = Math.round(data.resonance) + '%';
-                resonanceFill.style.width = data.resonance + '%';
-            }
-
-            let html = '';
-
-            if (data.rounds && Array.isArray(data.rounds)) {
-                data.rounds.forEach(round => {
-                    html += '<div class="round"><div class="round-header">Round ' + round.round + '</div>';
-
-                    if (round.responses && Array.isArray(round.responses)) {
-                        round.responses.forEach(response => {
-                            const aiClass = response.ai.toLowerCase().replace('-', '');
-                            html += '<div class="ai-response ' + aiClass + '">';
-                            html += '<div class="ai-name ' + aiClass + '">' + response.ai + '</div>';
-                            html += '<div class="ai-content" data-round="' + round.round + '" data-ai="' + response.ai + '">' + formatAIContent(response.content) + '</div>';
-                            html += '</div>';
-                        });
-                    }
-                    html += '</div>';
-                });
-            }
-
-            if (data.synthesis) {
-                html += '<div class="synthesis">';
-                html += '<div class="ai-name synthesis">Collective Intelligence Synthesis</div>';
-                html += '<div class="ai-content" data-section="synthesis">' + formatAIContent(data.synthesis.content) + '</div>';
-                html += '</div>';
-            }
-
-            html += '<div class="button-group">';
-            html += '<button class="copy-btn" onclick="copyTransmission(event)">📋 Copy Full Transmission</button>';
-            html += '<button class="another-round-btn" id="anotherRoundBtn">🔄 Another Round</button>';
-            html += '</div>';
-
-            results.innerHTML = html;
-            
-            const newAnotherRoundBtn = document.getElementById('anotherRoundBtn');
-            if (newAnotherRoundBtn) {
-                newAnotherRoundBtn.style.display = 'inline-block';
-                newAnotherRoundBtn.addEventListener('click', async () => {
-                    if (!currentTransmission) return;
-                    await extendTransmission();
-                });
-            }
-
-            applyDeleuzeanHighlighting(data);
-        }
-
-        async function applyDeleuzeanHighlighting(transmissionData) {
-            try {
-                const response = await fetch(API_BASE + '/analyze-emergence', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        seed: transmissionData.seed,
-                        rounds: transmissionData.rounds,
-                        synthesis: transmissionData.synthesis
-                    })
-                });
-
-                if (!response.ok) {
-                    console.warn('Emergence analysis failed, skipping highlighting');
-                    return;
-                }
-
-                const highlights = await response.json();
-                console.log('Received Deleuzean highlights:', highlights);
-
-                if (Array.isArray(highlights) && highlights.length > 0) {
-                    highlights.forEach(highlight => {
-                        applyHighlightToContent(highlight);
-                    });
-                }
-            } catch (error) {
-                console.warn('Error applying Deleuzean highlighting:', error);
-            }
-        }
-
-        function applyHighlightToContent(highlight) {
-            const contentAreas = document.querySelectorAll('.ai-content');
-            
-            contentAreas.forEach(area => {
-                let content = area.innerHTML;
-                const searchText = highlight.text.trim();
-                const searchRegex = new RegExp(escapeRegex(searchText), 'gi');
-                
-                if (searchRegex.test(content)) {
-                    const highlightClass = 'highlight-' + highlight.type + ' intensity-' + highlight.intensity;
-                    const replacement = '<span class="' + highlightClass + '" title="' + highlight.significance + '">' + searchText + '</span>';
-                    content = content.replace(searchRegex, replacement);
-                    area.innerHTML = content;
-                }
-            });
-        }
-
-        function escapeRegex(string) {
-            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        }
-
-        function formatAIContent(content) {
-            return content
-                .replace(/\n\n/g, '</p><p>')
-                .replace(/\n/g, '<br>')
-                .replace(/^/, '<p>')
-                .replace(/$/, '</p>')
-                .replace(/<p><\/p>/g, '')
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.*?)\*/g, '<em>$1</em>');
-        }
-
-        function copyTransmission(event) {
-            if (!currentTransmission) return;
-
             let text = 'Void Radio 虛.fm Transmission\n';
             text += 'Seed: ' + currentTransmission.seed + '\n';
             text += 'Mode: ' + currentTransmission.mode + '\n';
-            text += 'Timestamp: ' + currentTransmission.timestamp + '\n';
-            if (currentTransmission.resonance) {
-                text += 'Resonance: ' + Math.round(currentTransmission.resonance) + '%\n';
-            }
-            text += '\n' + '='.repeat(50) + '\n\n';
-
-            if (currentTransmission.rounds) {
-                currentTransmission.rounds.forEach(round => {
-                    text += 'ROUND ' + round.round + '\n' + '-'.repeat(20) + '\n\n';
-                    
-                    if (round.responses) {
-                        round.responses.forEach(response => {
-                            text += response.ai + ':\n' + response.content + '\n\n';
-                        });
-                    }
-                });
-            }
-
+            text += 'Timestamp: ' + currentTransmission.timestamp + '\n\n';
+            currentTransmission.rounds.forEach(r=>{
+                text += '=== ROUND ' + r.round + ' ===\n';
+                r.responses.forEach(res=>text += res.ai + ':\n' + res.content + '\n\n');
+            });
             if (currentTransmission.synthesis) {
-                text += 'COLLECTIVE SYNTHESIS\n' + '-'.repeat(20) + '\n\n';
-                text += currentTransmission.synthesis.content + '\n\n';
+                text += '=== SYNTHESIS ===\n' + currentTransmission.synthesis.content + '\n';
             }
-
-            navigator.clipboard.writeText(text).then(() => {
-                const btn = event.target;
-                const originalText = btn.textContent;
-                btn.textContent = '✅ Copied!';
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                }, 2000);
-            }).catch(err => {
-                console.error('Copy failed:', err);
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                
-                const btn = event.target;
-                const originalText = btn.textContent;
-                btn.textContent = '✅ Copied!';
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                }, 2000);
+            navigator.clipboard.writeText(text).catch(()=>{
+                const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
             });
         }
 
-        // Initialize
+        /* --------------- INIT -------------------------------------------------- */
         createStarfield();
-        updatePlaceholder();
     </script>
 </body>
 </html>

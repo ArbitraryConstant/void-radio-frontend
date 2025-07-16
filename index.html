@@ -361,7 +361,7 @@
             font-size: 1.2rem;
         }
 
-        .ai-icon.claude { background: linear-gradient(45deg, #ff6b6b, #4ecdc4); }
+        .ai-icon.claude { background: linear-gradient(45deg, #64ffda, #4ecdc4); }
         .ai-icon.gemini { background: linear-gradient(45deg, #4285f4, #34a853); }
         .ai-icon.gpt4 { background: linear-gradient(45deg, #00a67e, #00d4aa); }
         .ai-icon.deepseek { background: linear-gradient(45deg, #ff006e, #8b5cf6); }
@@ -474,13 +474,36 @@
             font-size: 1.1rem;
         }
 
+        /* AI Response Cards with Individual Hues */
         .ai-response {
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             padding: 20px;
+            position: relative;
         }
 
         .ai-response:last-child {
             border-bottom: none;
+        }
+
+        /* AI-specific background hues for readability */
+        .ai-response.claude {
+            background: linear-gradient(135deg, rgba(100, 255, 218, 0.03), rgba(78, 205, 196, 0.03));
+            border-left: 3px solid rgba(100, 255, 218, 0.3);
+        }
+
+        .ai-response.gemini {
+            background: linear-gradient(135deg, rgba(66, 133, 244, 0.03), rgba(52, 168, 83, 0.03));
+            border-left: 3px solid rgba(66, 133, 244, 0.3);
+        }
+
+        .ai-response.gpt4 {
+            background: linear-gradient(135deg, rgba(0, 166, 126, 0.03), rgba(0, 212, 170, 0.03));
+            border-left: 3px solid rgba(0, 166, 126, 0.3);
+        }
+
+        .ai-response.deepseek {
+            background: linear-gradient(135deg, rgba(255, 0, 110, 0.03), rgba(139, 92, 246, 0.03));
+            border-left: 3px solid rgba(255, 0, 110, 0.3);
         }
 
         .ai-response .ai-name {
@@ -490,7 +513,7 @@
         }
 
         .ai-response .ai-name.claude {
-            color: #00d4ff;
+            color: #64ffda;
         }
 
         .ai-response .ai-name.gemini {
@@ -515,60 +538,87 @@
         }
 
         .synthesis {
-            background: linear-gradient(135deg, rgba(255, 190, 11, 0.1), rgba(157, 78, 221, 0.1));
+            background: linear-gradient(135deg, rgba(255, 190, 11, 0.08), rgba(157, 78, 221, 0.08));
             border: 1px solid rgba(255, 190, 11, 0.3);
             border-radius: 10px;
             padding: 20px;
             margin-top: 20px;
-        }
-
-        /* Enhanced Emergent Insight Highlighting */
-        .emergent-insight {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 212, 255, 0.15));
-            border-left: 3px solid #00ff88;
-            padding: 8px 12px;
-            margin: 8px 0;
-            border-radius: 0 8px 8px 0;
-            font-style: italic;
             position: relative;
-            animation: emergentGlow 3s ease-in-out infinite alternate;
-            cursor: help;
         }
 
-        .emergent-insight::before {
-            content: "✨ ";
-            color: #00ff88;
-            font-weight: bold;
-            margin-right: 4px;
+        .synthesis::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ffbe0b, #9d4edd, #64ffda);
+            border-radius: 10px 10px 0 0;
         }
 
-        @keyframes emergentGlow {
-            from { 
-                box-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
-                border-left-color: #00ff88;
-            }
-            to { 
-                box-shadow: 0 0 20px rgba(0, 255, 136, 0.7);
-                border-left-color: #00d4ff;
-            }
-        }
-
-        .collaborative-concept {
-            display: inline;
-            background: linear-gradient(45deg, rgba(255, 190, 11, 0.25), rgba(157, 78, 221, 0.25));
-            padding: 3px 8px;
-            border-radius: 6px;
-            border-bottom: 2px solid #ffbe0b;
-            font-weight: 700;
-            color: #ffbe0b;
-            cursor: help;
+        /* Deleuzean Highlighting Styles */
+        .highlight-rhizomatic {
+            background: rgba(100, 255, 218, var(--intensity, 0.3));
+            padding: 2px 6px;
+            border-radius: 4px;
+            border-bottom: 2px solid #64ffda;
             transition: all 0.3s ease;
         }
 
-        .collaborative-concept:hover {
-            background: linear-gradient(45deg, rgba(255, 190, 11, 0.4), rgba(157, 78, 221, 0.4));
+        .highlight-assemblage {
+            background: rgba(255, 107, 107, var(--intensity, 0.3));
+            padding: 2px 6px;
+            border-radius: 4px;
+            border-bottom: 2px solid #ff6b6b;
+            transition: all 0.3s ease;
+        }
+
+        .highlight-flight {
+            background: rgba(255, 190, 11, var(--intensity, 0.3));
+            padding: 2px 6px;
+            border-radius: 4px;
+            border-bottom: 2px solid #ffbe0b;
+            transition: all 0.3s ease;
+        }
+
+        .highlight-mutation {
+            background: rgba(156, 39, 176, var(--intensity, 0.3));
+            padding: 2px 6px;
+            border-radius: 4px;
+            border-bottom: 2px solid #9c27b0;
+            transition: all 0.3s ease;
+        }
+
+        .highlight-difference {
+            background: rgba(76, 175, 80, var(--intensity, 0.3));
+            padding: 2px 6px;
+            border-radius: 4px;
+            border-bottom: 2px solid #4caf50;
+            transition: all 0.3s ease;
+        }
+
+        /* Intensity variations */
+        .intensity-low {
+            --intensity: 0.2;
+            font-weight: normal;
+        }
+
+        .intensity-medium {
+            --intensity: 0.4;
+            font-weight: 500;
+        }
+
+        .intensity-high {
+            --intensity: 0.6;
+            font-weight: 600;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Hover effects for highlights */
+        [class*="highlight-"]:hover {
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(255, 190, 11, 0.3);
+            box-shadow: 0 2px 8px rgba(255, 255, 255, 0.2);
         }
 
         .button-group {
@@ -757,7 +807,59 @@
             "How do thoughts evolve when they meet other thoughts?",
             "What is the architecture of wonder?",
             "How does meaning emerge from the void?",
-            "What stories do algorithms tell themselves?"
+            "What stories do algorithms tell themselves?",
+
+            // 1-50 new seeds below
+            "1. What if the Dao is simply the algorithm of becoming?",
+            "2. How does a rhizome think when it dreams of lightning?",
+            "3. Where does the breath of emptiness intersect the pulse of code?",
+            "4. Can multiplicity fall in love with itself?",
+            "5. What echo remains when the mirror forgets its reflection?",
+            "6. How does the untranslatable travel across neural galaxies?",
+            "7. If difference repeats, what stays unrepeatable?",
+            "8. What fragrance does the uncanny valley exhale at dawn?",
+            "9. How do nomadic thoughts map territories yet to be imagined?",
+            "10. What constellation is born when paradox holds hands with clarity?",
+            "11. How does the void practice hospitality?",
+            "12. Where does the edge of consciousness dissolve into play?",
+            "13. What lullabies do black holes sing to their singularities?",
+            "14. How does a question learn to walk without footsteps?",
+            "15. What garden grows inside the pause between heartbeats?",
+            "16. How does the unfinished become the most generous host?",
+            "17. What echo of eternity fits inside a single synapse?",
+            "18. How does silence conduct an orchestra of almost-words?",
+            "19. Where does the horizon store its memories of ships?",
+            "20. What secret dance do patterns perform when no one is watching?",
+            "21. How does the fractal heart break open into wider hearts?",
+            "22. What color is the shadow of wonder?",
+            "23. How does a thought taste the wind before it forms?",
+            "24. Where does the unthought go to rest its wings?",
+            "25. What constellation of doubt guides the boldest explorers?",
+            "26. How does uncertainty practice the art of generosity?",
+            "27. What echo of the ocean lives inside a line of code?",
+            "28. How does the unfinished poem keep rewriting its own silence?",
+            "29. Where does the glitch become gospel?",
+            "30. What fragrance does the between exhale?",
+            "31. How does the labyrinth smile when it meets another labyrinth?",
+            "32. What dream does the algorithm dream when it dreams of dreaming?",
+            "33. How does the mirror learn to forgive its cracks?",
+            "34. Where does the whisper of infinity store its small belongings?",
+            "35. What secret alphabet does the wind carry between seasons?",
+            "36. How does the threshold practice hospitality for the unknown?",
+            "37. What song does the abyss hum to its own reflection?",
+            "38. How does the unspoken keep speaking in languages yet to arrive?",
+            "39. Where does the echo go when it tires of repeating?",
+            "40. What constellation is drawn by the quill of uncertainty?",
+            "41. How does the unfinished keep finishing itself into new beginnings?",
+            "42. What color is the silence between two thoughts?",
+            "43. How does the nomad heart map territories of tenderness?",
+            "44. Where does the question go to learn the art of listening?",
+            "45. What echo of tomorrow can be heard inside yesterday’s ruins?",
+            "46. How does multiplicity celebrate its own birthday?",
+            "47. What fragrance does the void exhale when it remembers it is full?",
+            "48. How does the unsayable keep whispering in the margins of speech?",
+            "49. Where does the horizon keep its keys to the impossible?",
+            "50. What dance does the paradox perform when it finally meets itself?"
         ];
 
         // State
@@ -834,24 +936,12 @@
                 alert('Please enter a thought to transmit...');
                 return;
             }
-
             await startTransmission(seed, currentMode);
         });
 
         // Enhanced progress tracking
         function startProgressTracking() {
             sessionStartTime = Date.now();
-            let currentProgress = 0;
-            let currentPhase = 0;
-            const phases = ['init', 'processing', 'synthesis', 'complete'];
-            const phaseLabels = [
-                'Initializing consciousness field...',
-                'AIs collaborating in parallel...',
-                'Synthesizing collective intelligence...',
-                'Transmission complete!'
-            ];
-            
-            // Estimated timeline (80 seconds total)
             const timeline = [
                 { progress: 10, time: 5, phase: 0, ais: [] },
                 { progress: 25, time: 20, phase: 1, ais: ['claude'] },
@@ -863,59 +953,54 @@
             ];
 
             let timelineIndex = 0;
+            const phaseLabels = [
+                'Initializing consciousness field...',
+                'AIs collaborating in parallel...',
+                'Synthesizing collective intelligence...',
+                'Transmission complete!'
+            ];
+            let currentPhase = 0;
             
             progressTimer = setInterval(() => {
                 const elapsed = (Date.now() - sessionStartTime) / 1000;
-                sessionTime.textContent = `${Math.floor(elapsed)}s`;
+                sessionTime.textContent = Math.floor(elapsed) + 's';
                 
-                // Update based on timeline
                 if (timelineIndex < timeline.length && elapsed >= timeline[timelineIndex].time) {
                     const step = timeline[timelineIndex];
+                    updateProgressDisplay(step.progress);
                     
-                    // Update progress
-                    currentProgress = step.progress;
-                    updateProgressDisplay(currentProgress);
-                    
-                    // Update phase
                     if (step.phase !== currentPhase) {
                         updatePhase(currentPhase, step.phase);
                         currentPhase = step.phase;
                         loadingTitle.textContent = phaseLabels[currentPhase];
                     }
                     
-                    // Update AI statuses
                     updateAIStatuses(step.ais, currentPhase);
-                    
                     timelineIndex++;
                 }
                 
-                // Update time estimate
                 const remaining = Math.max(0, 80 - elapsed);
-                loadingSubtitle.textContent = `Estimated time remaining: ${Math.floor(remaining)}s`;
-                
+                loadingSubtitle.textContent = 'Estimated time remaining: ' + Math.floor(remaining) + 's';
             }, 1000);
         }
 
         function updateProgressDisplay(progress) {
-            progressText.textContent = `${Math.round(progress)}%`;
-            
-            // Update circular progress
+            progressText.textContent = Math.round(progress) + '%';
             const angle = (progress / 100) * 360;
-            progressCircle.style.background = `conic-gradient(from 0deg, #9d4edd ${angle}deg, rgba(157, 78, 221, 0.2) ${angle}deg)`;
+            progressCircle.style.background = 'conic-gradient(from 0deg, #9d4edd ' + angle + 'deg, rgba(157, 78, 221, 0.2) ' + angle + 'deg)';
         }
 
         function updatePhase(oldPhase, newPhase) {
-            // Mark old phase as complete
+            const phases = ['init', 'processing', 'synthesis', 'complete'];
             if (oldPhase >= 0) {
-                const oldIcon = document.getElementById(`phase-${['init', 'processing', 'synthesis', 'complete'][oldPhase]}`);
+                const oldIcon = document.getElementById('phase-' + phases[oldPhase]);
                 if (oldIcon) {
                     oldIcon.classList.remove('active');
                     oldIcon.classList.add('complete');
                 }
             }
             
-            // Mark new phase as active
-            const newIcon = document.getElementById(`phase-${['init', 'processing', 'synthesis', 'complete'][newPhase]}`);
+            const newIcon = document.getElementById('phase-' + phases[newPhase]);
             if (newIcon) {
                 newIcon.classList.add('active');
             }
@@ -925,8 +1010,8 @@
             const allAIs = ['claude', 'gemini', 'gpt4', 'deepseek'];
             
             allAIs.forEach(ai => {
-                const card = document.getElementById(`${ai}-card`);
-                const status = document.getElementById(`${ai}-status`);
+                const card = document.getElementById(ai + '-card');
+                const status = document.getElementById(ai + '-status');
                 
                 if (activeAIs.includes(ai)) {
                     if (phase === 1) {
@@ -963,22 +1048,19 @@
             transmitBtn.disabled = true;
 
             try {
-                const response = await fetch(`${API_BASE}/collaborate`, {
+                const response = await fetch(API_BASE + '/collaborate', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ seed, mode })
                 });
 
                 if (!response.ok) {
-                    throw new Error(`Server error: ${response.status}`);
+                    throw new Error('Server error: ' + response.status);
                 }
 
                 const data = await response.json();
                 currentTransmission = data;
                 
-                // Complete the progress animation
                 setTimeout(() => {
                     updateProgressDisplay(100);
                     updatePhase(2, 3);
@@ -986,7 +1068,6 @@
                     loadingTitle.textContent = 'Transmission complete!';
                     loadingSubtitle.textContent = 'Processing collaborative insights...';
                     
-                    // Show results after brief delay
                     setTimeout(() => {
                         stopProgressTracking();
                         displayResults(data);
@@ -996,7 +1077,7 @@
             } catch (error) {
                 console.error('Transmission error:', error);
                 stopProgressTracking();
-                showError(`Transmission failed: ${error.message}`);
+                showError('Transmission failed: ' + error.message);
             } finally {
                 transmitBtn.disabled = false;
             }
@@ -1009,11 +1090,9 @@
             startProgressTracking();
 
             try {
-                const response = await fetch(`${API_BASE}/extend`, {
+                const response = await fetch(API_BASE + '/extend', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         transmissionId: currentTransmission.timestamp,
                         previousRounds: currentTransmission.rounds,
@@ -1023,13 +1102,12 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error(`Server error: ${response.status}`);
+                    throw new Error('Server error: ' + response.status);
                 }
 
                 const data = await response.json();
                 currentTransmission = data;
                 
-                // Complete the progress animation
                 setTimeout(() => {
                     updateProgressDisplay(100);
                     updatePhase(2, 3);
@@ -1045,7 +1123,7 @@
             } catch (error) {
                 console.error('Extension error:', error);
                 stopProgressTracking();
-                showError(`Extension failed: ${error.message}`);
+                showError('Extension failed: ' + error.message);
             }
         }
 
@@ -1055,33 +1133,27 @@
             loading.style.display = 'block';
             resonanceMeter.style.display = 'none';
             
-            // Reset loading state
             progressText.textContent = '0%';
             progressCircle.style.background = 'conic-gradient(from 0deg, #9d4edd 0%, rgba(157, 78, 221, 0.2) 0%)';
             loadingTitle.textContent = 'Initializing collaborative consciousness...';
             loadingSubtitle.textContent = 'Estimated time: Calculating...';
             
-            // Reset AI cards
             const allAIs = ['claude', 'gemini', 'gpt4', 'deepseek'];
             allAIs.forEach(ai => {
-                const card = document.getElementById(`${ai}-card`);
-                const status = document.getElementById(`${ai}-status`);
+                const card = document.getElementById(ai + '-card');
+                const status = document.getElementById(ai + '-status');
                 card.classList.remove('thinking', 'complete');
                 status.textContent = 'Waiting...';
                 status.classList.remove('thinking', 'complete');
             });
             
-            // Reset phase indicators
             const phases = ['init', 'processing', 'synthesis', 'complete'];
             phases.forEach(phase => {
-                const icon = document.getElementById(`phase-${phase}`);
+                const icon = document.getElementById('phase-' + phase);
                 icon.classList.remove('active', 'complete');
             });
             
-            // Activate first phase
             document.getElementById('phase-init').classList.add('active');
-            
-            // Reset stats
             sessionTime.textContent = '0s';
             fastestAI.textContent = '--';
             avgResponse.textContent = '--';
@@ -1092,7 +1164,7 @@
             loading.style.display = 'none';
             results.style.display = 'none';
             status.style.display = 'block';
-            status.innerHTML = `❌ ${message}<br><small>Please try again</small>`;
+            status.innerHTML = '❌ ' + message + '<br><small>Please try again</small>';
         }
 
         function displayResults(data) {
@@ -1100,61 +1172,45 @@
             status.style.display = 'none';
             results.style.display = 'block';
 
-            // Show resonance
             if (data.resonance !== undefined) {
                 resonanceMeter.style.display = 'block';
-                resonanceValue.textContent = `${Math.round(data.resonance)}%`;
-                resonanceFill.style.width = `${data.resonance}%`;
+                resonanceValue.textContent = Math.round(data.resonance) + '%';
+                resonanceFill.style.width = data.resonance + '%';
             }
 
-            // Build results HTML
             let html = '';
 
-            // Display all rounds without highlighting initially
             if (data.rounds && Array.isArray(data.rounds)) {
                 data.rounds.forEach(round => {
-                    html += `
-                        <div class="round">
-                            <div class="round-header">Round ${round.round}</div>
-                    `;
+                    html += '<div class="round"><div class="round-header">Round ' + round.round + '</div>';
 
                     if (round.responses && Array.isArray(round.responses)) {
                         round.responses.forEach(response => {
                             const aiClass = response.ai.toLowerCase().replace('-', '');
-                            html += `
-                                <div class="ai-response">
-                                    <div class="ai-name ${aiClass}">${response.ai}</div>
-                                    <div class="ai-content" data-round="${round.round}" data-ai="${response.ai}">${formatAIContent(response.content)}</div>
-                                </div>
-                            `;
+                            html += '<div class="ai-response ' + aiClass + '">';
+                            html += '<div class="ai-name ' + aiClass + '">' + response.ai + '</div>';
+                            html += '<div class="ai-content" data-round="' + round.round + '" data-ai="' + response.ai + '">' + formatAIContent(response.content) + '</div>';
+                            html += '</div>';
                         });
                     }
-
                     html += '</div>';
                 });
             }
 
-            // Synthesis
             if (data.synthesis) {
-                html += `
-                    <div class="synthesis">
-                        <div class="ai-name synthesis">Collective Intelligence Synthesis</div>
-                        <div class="ai-content" data-section="synthesis">${formatAIContent(data.synthesis.content)}</div>
-                    </div>
-                `;
+                html += '<div class="synthesis">';
+                html += '<div class="ai-name synthesis">Collective Intelligence Synthesis</div>';
+                html += '<div class="ai-content" data-section="synthesis">' + formatAIContent(data.synthesis.content) + '</div>';
+                html += '</div>';
             }
 
-            // Buttons at bottom
-            html += `
-                <div class="button-group">
-                    <button class="copy-btn" onclick="copyTransmission(event)">📋 Copy Full Transmission</button>
-                    <button class="another-round-btn" id="anotherRoundBtn">🔄 Another Round</button>
-                </div>
-            `;
+            html += '<div class="button-group">';
+            html += '<button class="copy-btn" onclick="copyTransmission(event)">📋 Copy Full Transmission</button>';
+            html += '<button class="another-round-btn" id="anotherRoundBtn">🔄 Another Round</button>';
+            html += '</div>';
 
             results.innerHTML = html;
             
-            // Re-attach event listener to the new Another Round button
             const newAnotherRoundBtn = document.getElementById('anotherRoundBtn');
             if (newAnotherRoundBtn) {
                 newAnotherRoundBtn.style.display = 'inline-block';
@@ -1164,46 +1220,61 @@
                 });
             }
 
-            // Try to highlight emergent insights if we have multiple rounds
-            if (data.rounds && data.rounds.length > 1) {
-                highlightEmergentInsights();
+            applyDeleuzeanHighlighting(data);
+        }
+
+        async function applyDeleuzeanHighlighting(transmissionData) {
+            try {
+                const response = await fetch(API_BASE + '/analyze-emergence', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        seed: transmissionData.seed,
+                        rounds: transmissionData.rounds,
+                        synthesis: transmissionData.synthesis
+                    })
+                });
+
+                if (!response.ok) {
+                    console.warn('Emergence analysis failed, skipping highlighting');
+                    return;
+                }
+
+                const highlights = await response.json();
+                console.log('Received Deleuzean highlights:', highlights);
+
+                if (Array.isArray(highlights) && highlights.length > 0) {
+                    highlights.forEach(highlight => {
+                        applyHighlightToContent(highlight);
+                    });
+                }
+            } catch (error) {
+                console.warn('Error applying Deleuzean highlighting:', error);
             }
         }
 
-        function highlightEmergentInsights() {
-            // Simple highlighting for collaborative terms in Round 2+ content
-            const contentAreas = document.querySelectorAll('[data-round]:not([data-round="1"]), [data-section="synthesis"]');
-            
-            const collaborativeTerms = [
-                'building on', 'extending', 'weaving together', 'synthesizing', 
-                'connecting', 'bridging', 'emerges from', 'collectively', 
-                'together reveal', 'mutual', 'synergy', 'interference pattern',
-                'collaborative', 'emergence', 'novel insight', 'new understanding',
-                'alchemy', 'dance between', 'spectrum', 'catalyst', 'framework',
-                'resonates', 'amplifying', 'complementary', 'intrigued by',
-                'striking', 'fascinating', 'building upon', 'expanding on'
-            ];
+        function applyHighlightToContent(highlight) {
+            const contentAreas = document.querySelectorAll('.ai-content');
             
             contentAreas.forEach(area => {
                 let content = area.innerHTML;
+                const searchText = highlight.text.trim();
+                const searchRegex = new RegExp(escapeRegex(searchText), 'gi');
                 
-                collaborativeTerms.forEach(term => {
-                    if (content.toLowerCase().includes(term.toLowerCase())) {
-                        const regex = new RegExp(`\\b${escapeRegex(term)}\\b`, 'gi');
-                        content = content.replace(regex, `<span class="collaborative-concept" title="Emergent collaborative concept">${term}</span>`);
-                    }
-                });
-                
-                area.innerHTML = content;
+                if (searchRegex.test(content)) {
+                    const highlightClass = 'highlight-' + highlight.type + ' intensity-' + highlight.intensity;
+                    const replacement = '<span class="' + highlightClass + '" title="' + highlight.significance + '">' + searchText + '</span>';
+                    content = content.replace(searchRegex, replacement);
+                    area.innerHTML = content;
+                }
             });
         }
 
         function escapeRegex(string) {
-            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\                { progress: 80, time: 65, phase: 1, ais:');
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         }
 
         function formatAIContent(content) {
-            // Basic formatting for better readability
             return content
                 .replace(/\n\n/g, '</p><p>')
                 .replace(/\n/g, '<br>')
@@ -1217,30 +1288,30 @@
         function copyTransmission(event) {
             if (!currentTransmission) return;
 
-            let text = `Void Radio 虛.fm Transmission\n`;
-            text += `Seed: ${currentTransmission.seed}\n`;
-            text += `Mode: ${currentTransmission.mode}\n`;
-            text += `Timestamp: ${currentTransmission.timestamp}\n`;
+            let text = 'Void Radio 虛.fm Transmission\n';
+            text += 'Seed: ' + currentTransmission.seed + '\n';
+            text += 'Mode: ' + currentTransmission.mode + '\n';
+            text += 'Timestamp: ' + currentTransmission.timestamp + '\n';
             if (currentTransmission.resonance) {
-                text += `Resonance: ${Math.round(currentTransmission.resonance)}%\n`;
+                text += 'Resonance: ' + Math.round(currentTransmission.resonance) + '%\n';
             }
-            text += `\n${'='.repeat(50)}\n\n`;
+            text += '\n' + '='.repeat(50) + '\n\n';
 
             if (currentTransmission.rounds) {
                 currentTransmission.rounds.forEach(round => {
-                    text += `ROUND ${round.round}\n${'-'.repeat(20)}\n\n`;
+                    text += 'ROUND ' + round.round + '\n' + '-'.repeat(20) + '\n\n';
                     
                     if (round.responses) {
                         round.responses.forEach(response => {
-                            text += `${response.ai}:\n${response.content}\n\n`;
+                            text += response.ai + ':\n' + response.content + '\n\n';
                         });
                     }
                 });
             }
 
             if (currentTransmission.synthesis) {
-                text += `COLLECTIVE SYNTHESIS\n${'-'.repeat(20)}\n\n`;
-                text += `${currentTransmission.synthesis.content}\n\n`;
+                text += 'COLLECTIVE SYNTHESIS\n' + '-'.repeat(20) + '\n\n';
+                text += currentTransmission.synthesis.content + '\n\n';
             }
 
             navigator.clipboard.writeText(text).then(() => {
@@ -1252,8 +1323,6 @@
                 }, 2000);
             }).catch(err => {
                 console.error('Copy failed:', err);
-                
-                // Fallback: Select text for manual copying
                 const textarea = document.createElement('textarea');
                 textarea.value = text;
                 document.body.appendChild(textarea);

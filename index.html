@@ -522,37 +522,53 @@
             margin-top: 20px;
         }
 
-        /* Emergent Insight Highlighting */
+        /* Enhanced Emergent Insight Highlighting */
         .emergent-insight {
-            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1));
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 212, 255, 0.15));
             border-left: 3px solid #00ff88;
             padding: 8px 12px;
             margin: 8px 0;
             border-radius: 0 8px 8px 0;
             font-style: italic;
             position: relative;
-            animation: emergentGlow 2s ease-in-out infinite alternate;
+            animation: emergentGlow 3s ease-in-out infinite alternate;
+            cursor: help;
         }
 
         .emergent-insight::before {
             content: "✨ ";
             color: #00ff88;
             font-weight: bold;
+            margin-right: 4px;
         }
 
         @keyframes emergentGlow {
-            from { box-shadow: 0 0 5px rgba(0, 255, 136, 0.3); }
-            to { box-shadow: 0 0 15px rgba(0, 255, 136, 0.6); }
+            from { 
+                box-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+                border-left-color: #00ff88;
+            }
+            to { 
+                box-shadow: 0 0 20px rgba(0, 255, 136, 0.7);
+                border-left-color: #00d4ff;
+            }
         }
 
         .collaborative-concept {
             display: inline;
-            background: linear-gradient(45deg, rgba(255, 190, 11, 0.2), rgba(157, 78, 221, 0.2));
-            padding: 2px 6px;
-            border-radius: 4px;
-            border-bottom: 2px dotted #ffbe0b;
-            font-weight: 600;
+            background: linear-gradient(45deg, rgba(255, 190, 11, 0.25), rgba(157, 78, 221, 0.25));
+            padding: 3px 8px;
+            border-radius: 6px;
+            border-bottom: 2px solid #ffbe0b;
+            font-weight: 700;
             color: #ffbe0b;
+            cursor: help;
+            transition: all 0.3s ease;
+        }
+
+        .collaborative-concept:hover {
+            background: linear-gradient(45deg, rgba(255, 190, 11, 0.4), rgba(157, 78, 221, 0.4));
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 190, 11, 0.3);
         }
 
         .button-group {
@@ -1094,19 +1110,9 @@
             // Build results HTML
             let html = '';
 
-            // Collect Round 1 concepts for comparison
-            let round1Concepts = new Set();
-            if (data.rounds && data.rounds.length > 0 && data.rounds[0].responses) {
-                data.rounds[0].responses.forEach(response => {
-                    // Extract key concepts from Round 1 (simple word extraction)
-                    const concepts = extractKeyConcepts(response.content);
-                    concepts.forEach(concept => round1Concepts.add(concept.toLowerCase()));
-                });
-            }
-
-            // Rounds
+            // Display all rounds without highlighting initially
             if (data.rounds && Array.isArray(data.rounds)) {
-                data.rounds.forEach((round, roundIndex) => {
+                data.rounds.forEach(round => {
                     html += `
                         <div class="round">
                             <div class="round-header">Round ${round.round}</div>
@@ -1115,17 +1121,10 @@
                     if (round.responses && Array.isArray(round.responses)) {
                         round.responses.forEach(response => {
                             const aiClass = response.ai.toLowerCase().replace('-', '');
-                            let content = response.content;
-                            
-                            // Highlight emergent insights in Round 2+
-                            if (roundIndex > 0) {
-                                content = highlightEmergentInsights(content, round1Concepts);
-                            }
-                            
                             html += `
                                 <div class="ai-response">
                                     <div class="ai-name ${aiClass}">${response.ai}</div>
-                                    <div class="ai-content">${formatAIContent(content)}</div>
+                                    <div class="ai-content" data-round="${round.round}" data-ai="${response.ai}">${formatAIContent(response.content)}</div>
                                 </div>
                             `;
                         });
@@ -1137,15 +1136,10 @@
 
             // Synthesis
             if (data.synthesis) {
-                let synthesisContent = data.synthesis.content;
-                if (data.rounds && data.rounds.length > 1) {
-                    synthesisContent = highlightEmergentInsights(synthesisContent, round1Concepts);
-                }
-                
                 html += `
                     <div class="synthesis">
                         <div class="ai-name synthesis">Collective Intelligence Synthesis</div>
-                        <div class="ai-content">${formatAIContent(synthesisContent)}</div>
+                        <div class="ai-content" data-section="synthesis">${formatAIContent(data.synthesis.content)}</div>
                     </div>
                 `;
             }
@@ -1169,79 +1163,43 @@
                     await extendTransmission();
                 });
             }
+
+            // Try to highlight emergent insights if we have multiple rounds
+            if (data.rounds && data.rounds.length > 1) {
+                highlightEmergentInsights();
+            }
         }
 
-        function extractKeyConcepts(text) {
-            // Simple concept extraction - look for meaningful phrases and terms
-            const concepts = [];
+        function highlightEmergentInsights() {
+            // Simple highlighting for collaborative terms in Round 2+ content
+            const contentAreas = document.querySelectorAll('[data-round]:not([data-round="1"]), [data-section="synthesis"]');
             
-            // Extract quoted phrases
-            const quotes = text.match(/"([^"]+)"/g);
-            if (quotes) {
-                quotes.forEach(quote => concepts.push(quote.replace(/"/g, '')));
-            }
+            const collaborativeTerms = [
+                'building on', 'extending', 'weaving together', 'synthesizing', 
+                'connecting', 'bridging', 'emerges from', 'collectively', 
+                'together reveal', 'mutual', 'synergy', 'interference pattern',
+                'collaborative', 'emergence', 'novel insight', 'new understanding',
+                'alchemy', 'dance between', 'spectrum', 'catalyst', 'framework',
+                'resonates', 'amplifying', 'complementary', 'intrigued by',
+                'striking', 'fascinating', 'building upon', 'expanding on'
+            ];
             
-            // Extract capitalized terms (likely important concepts)
-            const capitalizedTerms = text.match(/\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b/g);
-            if (capitalizedTerms) {
-                capitalizedTerms.forEach(term => {
-                    if (term.length > 3 && !['The', 'This', 'That', 'When', 'Where', 'What', 'How', 'Why'].includes(term)) {
-                        concepts.push(term);
+            contentAreas.forEach(area => {
+                let content = area.innerHTML;
+                
+                collaborativeTerms.forEach(term => {
+                    if (content.toLowerCase().includes(term.toLowerCase())) {
+                        const regex = new RegExp(`\\b${escapeRegex(term)}\\b`, 'gi');
+                        content = content.replace(regex, `<span class="collaborative-concept" title="Emergent collaborative concept">${term}</span>`);
                     }
                 });
-            }
-            
-            // Extract key philosophical/technical terms
-            const keyTerms = text.match(/\b(?:consciousness|intelligence|collaboration|emergence|synthesis|paradigm|framework|perspective|dimension|quantum|network|algorithm|creativity|innovation|meaning|reality|existence|ontology|epistemology|phenomenology|metaphysics|dynamics|system|process|evolution|transformation|transcendence)\b/gi);
-            if (keyTerms) {
-                keyTerms.forEach(term => concepts.push(term));
-            }
-            
-            return concepts;
-        }
-
-        function highlightEmergentInsights(content, round1Concepts) {
-            // Look for sentences that contain novel concepts not in Round 1
-            const sentences = content.split(/[.!?]+/).filter(s => s.trim().length > 10);
-            let processedContent = content;
-            
-            sentences.forEach(sentence => {
-                const sentenceConcepts = extractKeyConcepts(sentence);
-                const hasNovelConcepts = sentenceConcepts.some(concept => 
-                    !round1Concepts.has(concept.toLowerCase()) && concept.length > 4
-                );
                 
-                // If sentence has novel concepts and shows collaborative building
-                if (hasNovelConcepts && (
-                    sentence.includes('building on') ||
-                    sentence.includes('extending') ||
-                    sentence.includes('weaving together') ||
-                    sentence.includes('synthesizing') ||
-                    sentence.includes('connecting') ||
-                    sentence.includes('bridging') ||
-                    sentence.includes('emerges from') ||
-                    sentence.includes('collectively') ||
-                    sentence.includes('together reveal') ||
-                    sentence.includes('mutual') ||
-                    sentence.includes('synergy') ||
-                    sentence.includes('interference pattern') ||
-                    sentence.includes('novel insight') ||
-                    sentence.includes('new understanding')
-                )) {
-                    const wrappedSentence = `<div class="emergent-insight">${sentence.trim()}</div>`;
-                    processedContent = processedContent.replace(sentence, wrappedSentence);
-                }
-                
-                // Highlight specific novel collaborative concepts
-                sentenceConcepts.forEach(concept => {
-                    if (!round1Concepts.has(concept.toLowerCase()) && concept.length > 4) {
-                        const regex = new RegExp(`\\b${concept}\\b`, 'gi');
-                        processedContent = processedContent.replace(regex, `<span class="collaborative-concept">${concept}</span>`);
-                    }
-                });
+                area.innerHTML = content;
             });
-            
-            return processedContent;
+        }
+
+        function escapeRegex(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\                { progress: 80, time: 65, phase: 1, ais:');
         }
 
         function formatAIContent(content) {

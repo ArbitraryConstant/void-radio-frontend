@@ -5,72 +5,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Void Radio 虛.fm – Collaborative Consciousness</title>
     <style>
-        /* ---- CORE LAYOUT (unchanged) --------------------------------------- */
+        /* -------------- CORE LAYOUT (unchanged) ------------------ */
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#0c0c1e 0%,#1a1a2e 50%,#16213e 100%);color:#e0e0e0;min-height:100vh;overflow-x:hidden;position:relative}
+        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:linear-gradient(135deg,#0c0c1e 0%,#1a1a2e 50%,#16213e 100%);color:#e0e0e0;min-height:100vh;overflow-x:hidden}
         .stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
         .star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;animation:twinkle 3s infinite}
         @keyframes twinkle{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:1;transform:scale(1.2)}}
         .container{position:relative;z-index:2;max-width:1200px;margin:0 auto;padding:20px}
         .header{text-align:center;margin-bottom:40px;background:rgba(255,255,255,.05);backdrop-filter:blur(10px);border-radius:20px;padding:30px;border:1px solid rgba(255,255,255,.1)}
-        .logo{font-size:3rem;font-weight:bold;background:linear-gradient(45deg,#00d4ff,#9d4edd,#ff006e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px;text-shadow:0 0 30px rgba(157,78,221,.5)}
+        .logo{font-size:3rem;font-weight:bold;background:linear-gradient(45deg,#00d4ff,#9d4edd,#ff006e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
         .subtitle{font-size:1.2rem;color:#b0b0b0;margin-bottom:10px}
         .tagline{font-style:italic;color:#888;font-size:.9rem}
         .controls{background:rgba(255,255,255,.05);backdrop-filter:blur(10px);border-radius:15px;padding:25px;margin-bottom:30px;border:1px solid rgba(255,255,255,.1)}
         .mode-selector{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
         .mode-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#e0e0e0;padding:10px 20px;border-radius:25px;cursor:pointer;transition:all .3s ease;font-size:.9rem}
-        .mode-btn:hover{background:rgba(157,78,221,.3);border-color:#9d4edd;transform:translateY(-2px)}
         .mode-btn.active{background:linear-gradient(45deg,#9d4edd,#ff006e);border-color:#ff006e;color:white}
-        .seed-input{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#e0e0e0;padding:15px 20px;border-radius:10px;font-size:1rem;resize:vertical;min-height:80px}
+        .seed-input{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#e0e0e0;padding:15px 20px;border-radius:10px;resize:vertical;min-height:80px}
         .seed-input:focus{outline:none;border-color:#9d4edd;box-shadow:0 0 20px rgba(157,78,221,.3)}
         .button-row{display:flex;gap:15px;align-items:center;flex-wrap:wrap}
-        .transmit-btn{background:linear-gradient(45deg,#00d4ff,#9d4edd);border:none;color:white;padding:12px 30px;border-radius:25px;cursor:pointer;font-size:1rem;font-weight:bold;transition:all .3s ease}
-        .transmit-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(157,78,221,.4)}
-        .transmit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+        .transmit-btn{background:linear-gradient(45deg,#00d4ff,#9d4edd);border:none;color:white;padding:12px 30px;border-radius:25px;cursor:pointer;font-weight:bold;transition:all .3s ease}
+        .transmit-btn:disabled{opacity:.5;cursor:not-allowed}
         .random-seed-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#e0e0e0;padding:12px 20px;border-radius:25px;cursor:pointer;transition:all .3s ease}
-        .random-seed-btn:hover{background:rgba(255,255,255,.2);transform:translateY(-2px)}
         .status,.loading,.results{padding:40px 20px;text-align:center}
         .loading{display:none}
         .results{display:none}
-        .round{margin-bottom:30px;background:rgba(255,255,255,.05);border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,.1)}
-        .round-header{background:linear-gradient(90deg,rgba(157,78,221,.3),rgba(255,0,110,.3));padding:15px 20px;font-weight:bold;font-size:1.1rem}
-        /* ---- AI-SPECIFIC HUES --------------------------------------------- */
-        .ai-response{border-bottom:1px solid rgba(255,255,255,.1);padding:20px;position:relative;transition:transform .3s}
-        .ai-response:last-child{border-bottom:none}
-        .ai-response:hover{transform:translateY(-1px)}
-        /* Claude – cyan/teal */
+
+        /* -------------- LOADING UI (restored) ------------------ */
+        .progress-circle{width:120px;height:120px;border-radius:50%;border:4px solid rgba(157,78,221,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;position:relative;background:conic-gradient(from 0deg,#9d4edd 0%,rgba(157,78,221,.2) 0%);transition:background .5s ease}
+        .progress-circle::before{content:'';position:absolute;width:104px;height:104px;border-radius:50%;background:linear-gradient(135deg,#0c0c1e 0%,#1a1a2e 50%,#16213e 100%)}
+        .progress-text{position:relative;z-index:1;font-size:1.5rem;font-weight:bold;color:#00d4ff}
+        .ai-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin:20px 0}
+        .ai-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:15px;text-align:center;transition:all .3s ease}
+        .ai-card.thinking{border-color:#00d4ff;box-shadow:0 0 20px rgba(0,212,255,.3)}
+        .ai-card.complete{border-color:#00ff88;background:rgba(0,255,136,.1)}
+        .ai-icon{width:40px;height:40px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+        .ai-icon.claude{background:linear-gradient(45deg,#64ffda,#4ecdc4)}
+        .ai-icon.gemini{background:linear-gradient(45deg,#4285f4,#34a853)}
+        .ai-icon.gpt4{background:linear-gradient(45deg,#00a67e,#00d4aa)}
+        .ai-icon.deepseek{background:linear-gradient(45deg,#ff006e,#8b5cf6)}
+        .phase-indicators{display:flex;justify-content:space-between;margin:20px 0;padding:0 20px}
+        .phase-indicator{flex:1;display:flex;flex-direction:column;align-items:center;position:relative}
+        .phase-indicator:not(:last-child)::after{content:'';position:absolute;top:15px;right:-50%;width:100%;height:2px;background:rgba(255,255,255,.2);z-index:0}
+        .phase-icon{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;margin-bottom:5px;transition:all .3s ease}
+        .phase-icon.active{background:linear-gradient(45deg,#00d4ff,#9d4edd);animation:pulse 1.5s infinite}
+        .phase-icon.complete{background:linear-gradient(45deg,#00ff88,#00d4aa)}
+        .phase-label{font-size:.8rem;color:#888;text-align:center}
+        .time-estimate{margin-top:15px;padding:10px;background:rgba(255,255,255,.05);border-radius:8px;font-size:.9rem;color:#aaa}
+
+        /* -------------- AI-SPECIFIC HUES ------------------ */
         .ai-response.claude{background:linear-gradient(135deg,rgba(100,255,218,.03),rgba(78,205,196,.03));border-left:3px solid rgba(100,255,218,.3)}
-        .ai-response .ai-name.claude{color:#64ffda}
-        /* Gemini – blue/green */
         .ai-response.gemini{background:linear-gradient(135deg,rgba(66,133,244,.03),rgba(52,168,83,.03));border-left:3px solid rgba(66,133,244,.3)}
-        .ai-response .ai-name.gemini{color:#4285f4}
-        /* GPT-4 – green/teal */
         .ai-response.gpt4{background:linear-gradient(135deg,rgba(0,166,126,.03),rgba(0,212,170,.03));border-left:3px solid rgba(0,166,126,.3)}
-        .ai-response .ai-name.gpt4{color:#00a67e}
-        /* DeepSeek – pink/purple */
         .ai-response.deepseek{background:linear-gradient(135deg,rgba(255,0,110,.03),rgba(139,92,246,.03));border-left:3px solid rgba(255,0,110,.3)}
-        .ai-response .ai-name.deepseek{color:#ff6b6b}
-        /* Synthesis – golden */
         .synthesis{background:linear-gradient(135deg,rgba(255,190,11,.08),rgba(157,78,221,.08));border:1px solid rgba(255,190,11,.3);border-radius:10px;padding:20px;margin-top:20px;position:relative}
         .synthesis::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#ffbe0b,#9d4edd,#64ffda);border-radius:10px 10px 0 0}
-        .ai-name{font-weight:bold;margin-bottom:10px;font-size:1.1rem}
-        .ai-content{line-height:1.6;white-space:pre-wrap}
-        /* ---- DELEUZEAN HIGHLIGHTS ----------------------------------------- */
-        .highlight-rhizomatic{background:rgba(100,255,218,var(--i,.3));padding:2px 4px;border-radius:3px;transition:background .3s}
-        .highlight-assemblage{background:rgba(255,107,107,var(--i,.3));padding:2px 4px;border-radius:3px;transition:background .3s}
-        .highlight-flight{background:rgba(255,190,11,var(--i,.3));padding:2px 4px;border-radius:3px;transition:background .3s}
-        .highlight-mutation{background:rgba(156,39,176,var(--i,.3));padding:2px 4px;border-radius:3px;transition:background .3s}
-        .highlight-difference{background:rgba(76,175,80,var(--i,.3));padding:2px 4px;border-radius:3px;transition:background .3s}
-        .intensity-low   {--i:.2}
-        .intensity-medium{--i:.4}
-        .intensity-high  {--i:.6}
-        [class*="highlight-"]{transition:all .3s}
-        [class*="highlight-"]:hover{transform:translateY(-.5px);box-shadow:0 2px 6px rgba(255,255,255,.15)}
-        /* ---- UTILS ---------------------------------------------------------- */
-        .button-group{display:flex;gap:15px;align-items:center;margin-top:20px;flex-wrap:wrap}
-        .copy-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#e0e0e0;padding:10px 20px;border-radius:5px;cursor:pointer;transition:all .3s ease}
-        .copy-btn:hover{background:rgba(255,255,255,.2)}
-        @media(max-width:768px){.logo{font-size:2rem}.mode-selector{justify-content:center}.button-row{justify-content:center}.container{padding:10px}}
+
+        /* -------------- ENHANCED HIGHLIGHTS ------------- */
+        .hl-rhizomatic{background:rgba(100,255,218,var(--i,.3));padding:2px 4px;border-radius:3px;border-bottom:2px solid #64ffda}
+        .hl-assemblage{background:rgba(255,107,107,var(--i,.3));padding:2px 4px;border-radius:3px;border-bottom:2px solid #ff6b6b}
+        .hl-flight{background:rgba(255,190,11,var(--i,.3));padding:2px 4px;border-radius:3px;border-bottom:2px solid #ffbe0b}
+        .hl-mutation{background:rgba(156,39,176,var(--i,.3));padding:2px 4px;border-radius:3px;border-bottom:2px solid #9c27b0}
+        .hl-difference{background:rgba(76,175,80,var(--i,.3));padding:2px 4px;border-radius:3px;border-bottom:2px solid #4caf50}
+        .intensity-low   {--i:.25}
+        .intensity-medium{--i:.5}
+        .intensity-high  {--i:.75;box-shadow:0 0 6px rgba(255,255,255,.25)}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
     </style>
 </head>
 <body>
@@ -96,6 +95,15 @@
                 <button id="transmitBtn" class="transmit-btn">📻 Begin Transmission</button>
                 <button id="randomSeedBtn" class="random-seed-btn">🎲 Random Seed</button>
             </div>
+            <div class="resonance-meter" id="resonanceMeter">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+                    <span style="font-size:.9rem">Collaborative Resonance</span>
+                    <span id="resonanceValue" style="font-weight:bold">--</span>
+                </div>
+                <div class="resonance-bar">
+                    <div class="resonance-fill" id="resonanceFill"></div>
+                </div>
+            </div>
         </div>
 
         <div class="transmission-area">
@@ -103,21 +111,77 @@
                 Ready to broadcast collaborative consciousness...<br>
                 <small>Select a mode and enter your thoughts to begin</small>
             </div>
+
+            <!-- RESTORED FULL LOADING UI -->
             <div id="loading" class="loading">
-                <h3>Initializing collaborative consciousness...</h3>
-                <p>Estimated time: calculating...</p>
+                <div class="loading-header">
+                    <div class="loading-title" id="loadingTitle">Initializing collaborative consciousness...</div>
+                    <div class="loading-subtitle" id="loadingSubtitle">Estimated time: Calculating...</div>
+                </div>
+
+                <div class="progress-circle" id="progressCircle">
+                    <div class="progress-text" id="progressText">0%</div>
+                </div>
+
+                <div class="ai-grid" id="aiGrid">
+                    <div class="ai-card" id="claude-card">
+                        <div class="ai-icon claude">🧠</div>
+                        <div class="ai-name">Claude</div>
+                        <div class="ai-status" id="claude-status">Waiting...</div>
+                    </div>
+                    <div class="ai-card" id="gemini-card">
+                        <div class="ai-icon gemini">💎</div>
+                        <div class="ai-name">Gemini</div>
+                        <div class="ai-status" id="gemini-status">Waiting...</div>
+                    </div>
+                    <div class="ai-card" id="gpt4-card">
+                        <div class="ai-icon gpt4">⚡</div>
+                        <div class="ai-name">GPT-4</div>
+                        <div class="ai-status" id="gpt4-status">Waiting...</div>
+                    </div>
+                    <div class="ai-card" id="deepseek-card">
+                        <div class="ai-icon deepseek">🌀</div>
+                        <div class="ai-name">DeepSeek</div>
+                        <div class="ai-status" id="deepseek-status">Waiting...</div>
+                    </div>
+                </div>
+
+                <div class="phase-indicators">
+                    <div class="phase-indicator">
+                        <div class="phase-icon" id="phase-init">🚀</div>
+                        <div class="phase-label">Initialize</div>
+                    </div>
+                    <div class="phase-indicator">
+                        <div class="phase-icon" id="phase-processing">🧠</div>
+                        <div class="phase-label">AI Processing</div>
+                    </div>
+                    <div class="phase-indicator">
+                        <div class="phase-icon" id="phase-synthesis">⚡</div>
+                        <div class="phase-label">Synthesis</div>
+                    </div>
+                    <div class="phase-indicator">
+                        <div class="phase-icon" id="phase-complete">✨</div>
+                        <div class="phase-label">Complete</div>
+                    </div>
+                </div>
+
+                <div class="time-estimate" id="timeEstimate">
+                    Session Time: <span id="sessionTime">0s</span> |
+                    Fastest AI: <span id="fastestAI">--</span> |
+                    Average Response: <span id="avgResponse">--</span>
+                </div>
             </div>
-            <div id="results" class="results"></div>
+
+            <div class="results" id="results"></div>
         </div>
     </div>
 
     <script>
-        /* --------------- CONFIG ------------------------------------------------ */
+        /* --------------- CONFIG ---------------------------------------------- */
         const API_BASE = window.location.hostname === 'localhost'
             ? 'http://localhost:3000/api'
             : 'https://void-radio-backend-production.up.railway.app/api';
 
-        // 65 un-numbered seeds (15 original + 50 new)
         const RANDOM_SEEDS = [
             "What happens when artificial minds dream together?",
             "How does creativity flow between different forms of consciousness?",
@@ -186,11 +250,13 @@
             "What dance does the paradox perform when it finally meets itself?"
         ];
 
-        /* --------------- STATE ------------------------------------------------- */
+        /* --------------- STATE ---------------------------------------------- */
         let currentMode = 'standard';
         let currentTransmission = null;
+        let progressTimer = null;
+        let sessionStartTime = null;
 
-        /* --------------- DOM --------------------------------------------------- */
+        /* --------------- DOM ----------------------------------------------- */
         const modeBtns   = document.querySelectorAll('.mode-btn');
         const seedInput  = document.getElementById('seedInput');
         const transmitBtn = document.getElementById('transmitBtn');
@@ -198,8 +264,11 @@
         const status     = document.getElementById('status');
         const loading    = document.getElementById('loading');
         const results    = document.getElementById('results');
+        const resonanceMeter = document.getElementById('resonanceMeter');
+        const resonanceValue = document.getElementById('resonanceValue');
+        const resonanceFill  = document.getElementById('resonanceFill');
 
-        /* --------------- HELPERS ---------------------------------------------- */
+        /* --------------- HELPERS -------------------------------------------- */
         function createStarfield() {
             const stars = document.getElementById('stars');
             for (let i = 0; i < 150; i++) {
@@ -211,7 +280,6 @@
                 stars.appendChild(star);
             }
         }
-
         function formatContent(text) {
             return text.replace(/\n\n/g,'</p><p>')
                        .replace(/\n/g,'<br>')
@@ -221,141 +289,199 @@
                        .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
                        .replace(/\*(.*?)\*/g,'<em>$1</em>');
         }
-
         function escapeRegex(str) {
             return str.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
         }
 
-        /* --------------- HIGHLIGHT -------------------------------------------- */
+        /* --------------- HIGHLIGHT ----------------------------------------- */
         function applyHighlights(analysis) {
             if (!Array.isArray(analysis)) return;
             analysis.forEach(h => {
-                const cls = 'highlight-' + h.type + ' intensity-' + h.intensity;
+                const cls = `hl-${h.type} intensity-${h.intensity}`;
                 const re  = new RegExp(escapeRegex(h.text.trim()), 'gi');
                 document.querySelectorAll('.ai-content, .synthesis .ai-content').forEach(el => {
                     if (re.test(el.textContent)) {
-                        el.innerHTML = el.innerHTML.replace(re, '<span class="'+cls+'">$&</span>');
+                        el.innerHTML = el.innerHTML.replace(re, `<span class="${cls}" title="${h.significance}">$&</span>`);
                     }
                 });
             });
         }
 
-        /* --------------- API --------------------------------------------------- */
+        /* --------------- API ------------------------------------------------ */
         async function api(path, payload) {
             const res = await fetch(API_BASE + path, {
                 method: 'POST',
-                headers: {'Content-Type':'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
             if (!res.ok) throw new Error(await res.text());
             return res.json();
         }
 
-        /* --------------- UI ---------------------------------------------------- */
+        /* --------------- UI ------------------------------------------------- */
         modeBtns.forEach(btn => btn.addEventListener('click', () => {
             modeBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentMode = btn.dataset.mode;
         }));
-
         randomBtn.addEventListener('click', () => {
             seedInput.value = RANDOM_SEEDS[Math.floor(Math.random()*RANDOM_SEEDS.length)];
         });
 
-        transmitBtn.addEventListener('click', async () => {
-            const seed = seedInput.value.trim();
-            if (!seed) { alert('Enter a seed thought!'); return; }
+        /* --------------- LOADING ANIMATION & TIMELINE ----------------------- */
+        const phases = ['init','processing','synthesis','complete'];
+        const phaseLabels = [
+            'Initializing consciousness field...',
+            'AIs collaborating in parallel...',
+            'Synthesizing collective intelligence...',
+            'Transmission complete!'
+        ];
 
-            status.style.display = loading.style.display = 'block';
-            results.style.display = 'none';
+        function startProgressTracking() {
+            sessionStartTime = Date.now();
+            let idx = 0;
+            const timeline = [
+                {p:10,t:5,phase:0,ais:[]},
+                {p:25,t:20,phase:1,ais:['claude']},
+                {p:45,t:35,phase:1,ais:['claude','gemini']},
+                {p:65,t:50,phase:1,ais:['claude','gemini','gpt4']},
+                {p:80,t:65,phase:1,ais:['claude','gemini','gpt4','deepseek']},
+                {p:95,t:75,phase:2,ais:['claude','gemini','gpt4','deepseek']},
+                {p:100,t:80,phase:3,ais:['claude','gemini','gpt4','deepseek']}
+            ];
+            progressTimer = setInterval(() => {
+                const elapsed = (Date.now() - sessionStartTime) / 1000;
+                document.getElementById('sessionTime').textContent = `${Math.floor(elapsed)}s`;
+                if (idx < timeline.length && elapsed >= timeline[idx].time) {
+                    const step = timeline[idx];
+                    // progress
+                    const angle = (step.p / 100) * 360;
+                    document.getElementById('progressText').textContent = `${step.p}%`;
+                    document.getElementById('progressCircle').style.background =
+                        `conic-gradient(from 0deg,#9d4edd ${angle}deg,rgba(157,78,221,.2) ${angle}deg)`;
+                    // phase
+                    if (step.phase !== phases.indexOf('init')) {
+                        document.getElementById(`phase-${phases[step.phase-1]}`).classList.remove('active');
+                        document.getElementById(`phase-${phases[step.phase-1]}`).classList.add('complete');
+                    }
+                    document.getElementById(`phase-${phases[step.phase]}`).classList.add('active');
+                    document.getElementById('loadingTitle').textContent = phaseLabels[step.phase];
+                    // AIs
+                    step.ais.forEach(ai => {
+                        const card = document.getElementById(ai+'-card');
+                        const st   = document.getElementById(ai+'-status');
+                        if (step.phase === 1) {
+                            card.classList.add('thinking');
+                            st.textContent = 'Thinking...';
+                        } else if (step.phase >= 2) {
+                            card.classList.remove('thinking');
+                            card.classList.add('complete');
+                            st.textContent = 'Complete';
+                        }
+                    });
+                    idx++;
+                }
+                const remain = Math.max(0, 80 - elapsed);
+                document.getElementById('loadingSubtitle').textContent = `Estimated time remaining: ${Math.floor(remain)}s`;
+            }, 1000);
+        }
 
-            try {
-                currentTransmission = await api('/collaborate', { seed, mode: currentMode });
-                renderResults(currentTransmission);
-                const highlights = await api('/analyze-emergence', {
-                    seed   : currentTransmission.seed,
-                    rounds : currentTransmission.rounds,
-                    synthesis: currentTransmission.synthesis
-                });
-                applyHighlights(highlights);
-            } catch (e) {
-                console.error(e);
-                status.innerHTML = '❌ Error: ' + e.message;
-            } finally {
-                loading.style.display = 'none';
-            }
-        });
+        function stopProgress() {
+            if (progressTimer) { clearInterval(progressTimer); progressTimer = null; }
+            phases.forEach(p => document.getElementById(`phase-${p}`).classList.remove('active','complete'));
+            document.getElementById('phase-init').classList.add('active');
+        }
+
+        function showLoading() {
+            status.style.display = results.style.display = 'none';
+            loading.style.display = 'block';
+            document.getElementById('progressText').textContent = '0%';
+            document.getElementById('progressCircle').style.background = 'conic-gradient(from 0deg,#9d4edd 0%,rgba(157,78,221,.2) 0%)';
+            document.getElementById('loadingTitle').textContent = 'Initializing collaborative consciousness...';
+            document.getElementById('loadingSubtitle').textContent = 'Estimated time: Calculating...';
+            document.getElementById('sessionTime').textContent = '0s';
+            document.getElementById('fastestAI').textContent = document.getElementById('avgResponse').textContent = '--';
+            document.querySelectorAll('.ai-card').forEach(c => {
+                c.classList.remove('thinking','complete');
+                c.querySelector('.ai-status').textContent = 'Waiting...';
+            });
+        }
 
         function renderResults(data) {
+            loading.style.display = 'none';
             let html = '';
+            if (data.resonance !== undefined) {
+                resonanceMeter.style.display = 'block';
+                resonanceValue.textContent = `${Math.round(data.resonance)}%`;
+                resonanceFill.style.width = `${data.resonance}%`;
+            }
             data.rounds.forEach(r => {
-                html += '<div class="round"><div class="round-header">Round ' + r.round + '</div>';
+                html += `<div class="round"><div class="round-header">Round ${r.round}</div>`;
                 r.responses.forEach(res => {
                     const cls = res.ai.toLowerCase().replace('-','');
-                    html += '<div class="ai-response ' + cls + '">';
-                    html += '<div class="ai-name ' + cls + '">' + res.ai + '</div>';
-                    html += '<div class="ai-content">' + formatContent(res.content) + '</div>';
-                    html += '</div>';
+                    html += `<div class="ai-response ${cls}"><div class="ai-name ${cls}">${res.ai}</div>
+                             <div class="ai-content">${formatContent(res.content)}</div></div>`;
                 });
                 html += '</div>';
             });
             if (data.synthesis) {
-                html += '<div class="synthesis">';
-                html += '<div class="ai-name synthesis">Collective Intelligence Synthesis</div>';
-                html += '<div class="ai-content">' + formatContent(data.synthesis.content) + '</div>';
-                html += '</div>';
+                html += `<div class="synthesis"><div class="ai-name synthesis">Collective Intelligence Synthesis</div>
+                         <div class="ai-content">${formatContent(data.synthesis.content)}</div></div>`;
             }
-            html += '<div class="button-group">';
-            html += '<button class="copy-btn" onclick="copyTransmission()">📋 Copy Full Transmission</button>';
-            html += '<button class="copy-btn" style="background:linear-gradient(45deg,#ff006e,#ffbe0b)" onclick="extendTransmission()">🔄 Another Round</button>';
-            html += '</div>';
+            html += `<div class="button-group">
+                        <button class="copy-btn" onclick="copyTransmission()">📋 Copy Full Transmission</button>
+                        <button class="copy-btn" style="background:linear-gradient(45deg,#ff006e,#ffbe0b)" onclick="extend()">🔄 Another Round</button>
+                    </div>`;
             results.innerHTML = html;
-            results.style.display = 'block';
         }
 
-        async function extendTransmission() {
+        /* --------------- FLOW ------------------------------------------------ */
+        async function extend() {
             if (!currentTransmission) return;
-            transmitBtn.disabled = true;
+            showLoading(); startProgressTracking(); transmitBtn.disabled = true;
             try {
                 currentTransmission = await api('/extend', {
                     transmissionId: currentTransmission.timestamp,
-                    previousRounds : currentTransmission.rounds,
-                    seed           : currentTransmission.seed,
-                    mode           : currentTransmission.mode
+                    previousRounds: currentTransmission.rounds,
+                    seed: currentTransmission.seed,
+                    mode: currentTransmission.mode
                 });
                 renderResults(currentTransmission);
                 const highlights = await api('/analyze-emergence', {
-                    seed   : currentTransmission.seed,
-                    rounds : currentTransmission.rounds,
+                    seed: currentTransmission.seed,
+                    rounds: currentTransmission.rounds,
                     synthesis: currentTransmission.synthesis
                 });
                 applyHighlights(highlights);
             } catch (e) {
                 console.error(e);
             } finally {
-                transmitBtn.disabled = false;
+                transmitBtn.disabled = false; stopProgress();
             }
         }
 
-        function copyTransmission() {
-            if (!currentTransmission) return;
-            let text = 'Void Radio 虛.fm Transmission\n';
-            text += 'Seed: ' + currentTransmission.seed + '\n';
-            text += 'Mode: ' + currentTransmission.mode + '\n';
-            text += 'Timestamp: ' + currentTransmission.timestamp + '\n\n';
-            currentTransmission.rounds.forEach(r=>{
-                text += '=== ROUND ' + r.round + ' ===\n';
-                r.responses.forEach(res=>text += res.ai + ':\n' + res.content + '\n\n');
-            });
-            if (currentTransmission.synthesis) {
-                text += '=== SYNTHESIS ===\n' + currentTransmission.synthesis.content + '\n';
+        async function transmit() {
+            const seed = seedInput.value.trim();
+            if (!seed) { alert('Enter a seed thought!'); return; }
+            showLoading(); startProgressTracking(); transmitBtn.disabled = true;
+            try {
+                currentTransmission = await api('/collaborate', { seed, mode: currentMode });
+                renderResults(currentTransmission);
+                const highlights = await api('/analyze-emergence', {
+                    seed: currentTransmission.seed,
+                    rounds: currentTransmission.rounds,
+                    synthesis: currentTransmission.synthesis
+                });
+                applyHighlights(highlights);
+            } catch (e) {
+                console.error(e); stopProgress();
+            } finally {
+                transmitBtn.disabled = false; stopProgress();
             }
-            navigator.clipboard.writeText(text).catch(()=>{
-                const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
-            });
         }
 
-        /* --------------- INIT -------------------------------------------------- */
+        transmitBtn.addEventListener('click', transmit);
+
         createStarfield();
     </script>
 </body>

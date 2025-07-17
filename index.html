@@ -930,6 +930,25 @@
                     console.warn('Could not analyze emergence patterns:', e.message);
                 }
                 
+                // Auto-scroll to the newest round after extension
+                setTimeout(() => {
+                    const rounds = document.querySelectorAll('.round');
+                    if (rounds.length > 0) {
+                        const latestRound = rounds[rounds.length - 1];
+                        latestRound.scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start' 
+                        });
+                        
+                        // Add a subtle highlight effect to show the new content
+                        latestRound.style.background = 'rgba(0, 212, 255, 0.1)';
+                        latestRound.style.transition = 'background 2s ease';
+                        setTimeout(() => {
+                            latestRound.style.background = '';
+                        }, 2000);
+                    }
+                }, 500);
+                
             } catch (error) {
                 console.error('Extension failed:', error);
                 showError(

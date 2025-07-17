@@ -152,9 +152,9 @@
 
         <div class="controls">
             <div class="mode-selector">
-                <button class="mode-btn active" data-mode="standard">🌊 Standard Flow</button>
+                <button class="mode-btn" data-mode="standard">🌊 Standard Flow</button>
                 <button class="mode-btn" data-mode="deep">🏔️ Deep Dive</button>
-                <button class="mode-btn" data-mode="quick">⚡ Quick Burst</button>
+                <button class="mode-btn active" data-mode="quick">⚡ Quick Burst</button>
                 <button class="mode-btn" data-mode="meta">🔮 Meta-Recursive</button>
             </div>
             <textarea id="seedInput" class="seed-input"
@@ -334,7 +334,7 @@
         ];
 
         /* --------------- STATE ---------------------------------------------- */
-        let currentMode = 'standard';
+        let currentMode = 'quick';
         let currentTransmission = null;
         let transmissionStartTime = null;
         let progressTimer = null;
